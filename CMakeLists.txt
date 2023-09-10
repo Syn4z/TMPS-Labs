@@ -8,14 +8,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Define source files
 set(SOURCES
-    src/CarModel.cpp
+    src/carManufacturing/CarModel.cpp
     # src/CarManufacturer.cpp
-    CarManufacturer.cpp
+    Main.cpp
 )
 
 # Define header files
 set(HEADERS
-    include/CarModel.h
+    include/carManufacturing/CarModel.h
     # include/CarManufacturer.h
     # include/Interfaces/IProduction.h
     # include/Interfaces/IReporting.h
@@ -26,5 +26,3 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
 # Specify include directories
 target_include_directories(${PROJECT_NAME} PRIVATE include)
-
-# You can add additional configuration options, libraries, and dependencies here.

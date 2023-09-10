@@ -1,0 +1,30 @@
+[
+    {
+        "brand": "Toyota",
+        "model": "Camry",
+        "year": 2023,
+        "price": 25000.0,
+        "features": "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry"
+    },
+    {
+        "brand": "Honda",
+        "model": "Civic",
+        "year": 2022,
+        "price": 22000.0,
+        "features": "Lane Keeping Assist, Apple CarPlay, Android Auto"
+    },
+    {
+        "brand": "Ford",
+        "model": "F-150",
+        "year": 2023,
+        "price": 35000.0,
+        "features": "Towing Package, Sync 4 Infotainment, Remote Start"
+    },
+    {
+        "brand": "Chevrolet",
+        "model": "Malibu",
+        "year": 2022,
+        "price": 23000.0,
+        "features": "Blind Spot Monitoring, Wireless Charging, Rearview Camera"
+    }
+]
