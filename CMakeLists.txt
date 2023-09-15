@@ -8,17 +8,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Define source files
 set(SOURCES
-    src/carManufacturing/CarModel.cpp
-    # src/CarManufacturer.cpp
+    src/carManufacturing/PersonalCar.cpp
+    src/marketing/Advertisements.cpp
     Main.cpp
 )
 
 # Define header files
 set(HEADERS
-    include/carManufacturing/CarModel.h
-    # include/CarManufacturer.h
-    # include/Interfaces/IProduction.h
-    # include/Interfaces/IReporting.h
+    include/carManufacturing/PersonalCar.h
+    include/marketing/Advertisements.h
 )
 
 # Add executable target

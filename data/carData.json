@@ -4,27 +4,35 @@
         "model": "Camry",
         "year": 2023,
         "price": 25000.0,
-        "features": "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry"
+        "features": "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry",
+        "quantity": 5,
+        "serialNr": "T2023C001"
     },
     {
         "brand": "Honda",
         "model": "Civic",
         "year": 2022,
         "price": 22000.0,
-        "features": "Lane Keeping Assist, Apple CarPlay, Android Auto"
+        "features": "Lane Keeping Assist, Apple CarPlay, Android Auto",
+        "quantity": 3,
+        "serialNr": "H2022C001"
     },
     {
         "brand": "Ford",
         "model": "F-150",
         "year": 2023,
         "price": 35000.0,
-        "features": "Towing Package, Sync 4 Infotainment, Remote Start"
+        "features": "Towing Package, Sync 4 Infotainment, Remote Start",
+        "quantity": 2,
+        "serialNr": "F2023F001"
     },
     {
         "brand": "Chevrolet",
         "model": "Malibu",
         "year": 2022,
         "price": 23000.0,
-        "features": "Blind Spot Monitoring, Wireless Charging, Rearview Camera"
+        "features": "Blind Spot Monitoring, Wireless Charging, Rearview Camera",
+        "quantity": 4,
+        "serialNr": "C2022M001"
     }
 ]
