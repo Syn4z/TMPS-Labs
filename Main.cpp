@@ -1,22 +1,31 @@
 #include <iostream>
 #include <vector>
-#include <typeinfo>
+#include <string>
+#include <sstream>
+#include <limits>
 #include "include/carManufacturing/PersonalCar.h"
-#include "include/marketing/Advertisements.h"
+#include "src/carManufacturing/CarInfoDisplay.cpp"
+#include "src/carManufacturing/CarCosts.cpp"
+#include "src/marketing/FreeAdvertisementDisplay.cpp"
+#include "src/marketing/PaidAdvertisementDisplay.cpp"
 
 
-// TO DO implement SOLID principles
-// Get a reason for Open-Closed Principle
-// Get a reason for Liskov Substitution Principle
+bool isValidDoubleInput(const std::string& input) {
+    std::istringstream stream(input);
+    double value;
+    return stream >> value && stream.eof();
+}
+
 int main() {
     bool exitProgram = false;
-    std::vector<PersonalCar> carModels;
-    carModels.push_back(PersonalCar("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001"));
-    carModels.push_back(PersonalCar("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002"));
-    carModels.push_back(PersonalCar("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003"));
-    carModels.push_back(PersonalCar("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004"));
-    Advertisements ads;
-    AdDetails ad;
+    std::vector<PersonalCar> cars;
+    cars.push_back(PersonalCar("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001"));
+    cars.push_back(PersonalCar("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002"));
+    cars.push_back(PersonalCar("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003"));
+    cars.push_back(PersonalCar("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004"));
+
+    std::vector<FreeAdvertisementImpl> freeAds;
+    std::vector<PaidAdvertisementImpl> paidAds;
 
     while (!exitProgram) {
         int mainChoice;
@@ -47,64 +56,77 @@ int main() {
 
                     switch (carChoice) {
                         case 1:
-                            std::cout << "Enter the serial nr of the car/Enter 'A' for all cars: ";
-                            std::cin >> serialNr;
-                            for (const auto& car : carModels) {
-                                if (car.getSerialNr() == serialNr) {
-                                    std::cout << "\n  Car Information:" << std::endl;
-                                    car.displayInfo();
-                                    double costPrice = car.getPrice() * 0.8;
-                                    double profit = car.calculateProfit(costPrice);
-                                    std::cout << "\nProduction Price: $" << costPrice << std::endl;
-                                    std::cout << "Profit: $" << profit << std::endl;
-                                    std::cout << "--------------------------" << std::endl;
-                                    break;
-                                }
-                                else if (serialNr == "A") {
-                                    std::cout << "  Car Information:" << std::endl;
-                                    car.displayInfo();
-                                    double costPrice = car.getPrice() * 0.8;
-                                    double profit = car.calculateProfit(costPrice);
-                                    std::cout << "\nProduction Price: $" << costPrice << std::endl;
-                                    std::cout << "Profit: $" << profit << std::endl;
-                                    std::cout << "--------------------------" << std::endl;
+                            while (true) {
+                                std::cout << "Enter the serial nr of the car/Enter 'A' for all cars: ";
+                                std::cin >> serialNr;
+                                if (serialNr.size() != 9 && serialNr != "A") {
+                                    std::cout << "Invalid serial number. Serial number must have exactly 9 characters." << std::endl;
+                                    continue;
                                 }
                                 else {
-                                    std::cout << "Car with serial number " << serialNr << " not found." << std::endl;
+                                    break;
                                 }
-                            }    
+                            }
+                            for (const auto& car : cars) {
+                                if (car.getSerialNr() == serialNr || serialNr == "A") {
+                                    std::cout << "\n  Car Information:" << std::endl;
+                                    CarInfoDisplay carInfoDisplay(car);
+                                    CarCosts carCosts(car);
+                                    carInfoDisplay.display();
+                                    double profit = carCosts.calculateProfit();
+                                    double costPrice = carCosts.getAllCosts();
+                                    if (serialNr != "A" && car.getSerialNr() == serialNr) {
+                                        carCosts.display();
+                                    }
+                                    std::cout << "\nAll Expenses: $" << costPrice << std::endl;
+                                    std::cout << "Profit: $" << profit << std::endl;
+                                    std::cout << "--------------------------" << std::endl;
+                                    carFound = true;
+
+                                    if (serialNr != "A") {
+                                        break;
+                                    }
+                                }
+                            } 
+                            if (!carFound) {
+                                std::cout << "Car with serial number " << serialNr << " not found." << std::endl;
+                            }   
                             break;
 
                         case 2:
-                            std::cout << "Enter the serial nr of the car: ";
-                            std::cin >> serialNr;
-                            if (serialNr.size() != 9) {
-                                std::cout << "Invalid serial number. Serial number must have exactly 9 characters." << std::endl;
-                                continue;
+                            while (true) {
+                                std::cout << "Enter the serial nr of the car:\n";
+                                std::getline(std::cin, serialNr);
+                                if (serialNr.size() == 9 && serialNr.find(' ') == std::string::npos) {
+                                    break;
+                                }
+                                else {
+                                    std::cout << "Invalid serial number. Serial number must have exactly 9 characters." << std::endl;
+                                }
                             }
-                            std::cout << "Enter the new quantity as an integer: ";
-                            std::cin >> input;
-                            try {
-                                newQuantity = std::stoi(input); 
-                            } catch (std::invalid_argument&) {
-                                std::cerr << "Invalid input. Please enter a valid integer." << std::endl;
-                                continue;
-                            } catch (std::out_of_range&) {
-                                std::cerr << "Input out of range for integer. Please enter a valid integer." << std::endl;
-                                continue;
+                            while (true) {
+                                std::cout << "Enter the new quantity as an integer: ";
+                                std::cin >> input;
+                                try {
+                                    newQuantity = std::stoi(input); 
+                                    break;
+                                } catch (std::invalid_argument&) {
+                                    std::cerr << "Invalid input. Please enter a valid integer." << std::endl;
+                                } catch (std::out_of_range&) {
+                                    std::cerr << "Input out of range for integer. Please enter a valid integer." << std::endl;
+                                }
                             }
                             try {
-                                for (auto& car : carModels) {
+                                for (auto& car : cars) {
                                     if (car.getSerialNr() == serialNr) {
                                         car.setQuantity(newQuantity);
                                         std::cout << "Quantity updated for car with serial number " << serialNr << std::endl;
-                                        car.displayInfo();
                                         carFound = true;
                                         break;
                                     }
                                 }
                                 if (!carFound) {
-                                    throw std::invalid_argument("Car with serial number " + serialNr + " not found.");
+                                    throw std::invalid_argument("Car with serial number '" + serialNr + "' not found.");
                                 }
                             } catch (const std::exception& e) {
                                 std::cerr << "An error occurred: " << e.what() << std::endl;
@@ -115,6 +137,8 @@ int main() {
                             break;
 
                         default:
+                            std::cin.clear();
+                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                             std::cout << "Invalid choice. Try again." << std::endl;
                             break;
                     }
@@ -139,40 +163,100 @@ int main() {
                     std::string searchTitle;
                     std::string serialNr;
                     std::string input;
+                    std::string costInput;
+                    std::string feedbackInput;
+                    std::string title;
+                    std::string content;
 
                     switch (marketingChoice) {
                         case 1:
+                            while (true) {
+                                std::cout << "Enter the type of advertisement (Free/Paid): ";
+                                std::cin >> input;
+
+                                for (char& c : input) {
+                                    c = std::tolower(c);
+                                }
+
+                                if (input == "free" || input == "paid") {
+                                    break;
+                                } else {
+                                    std::cout << "Invalid input. Please enter 'Free' or 'Paid'." << std::endl;
+                                }
+                            }
                             std::cout << "Enter the title: ";
-                            std::cin >> ad.title;
+                            std::cin.ignore();
+                            std::getline(std::cin, title);
                             std::cout << "Enter the content: ";
-                            std::cin >> ad.content;
-                            std::cout << "Enter the cost: ";
-                            std::cin >> ad.cost;
-                            std::cout << "Enter the revenue: ";
-                            std::cin >> ad.revenue;
-                            ads.addAdvertisement(ad);
+                            std::getline(std::cin, content);
+                            if (input == "paid") {
+                                do {
+                                    std::cout << "Enter the cost: ";
+                                    std::getline(std::cin, costInput);
+                                } while (!isValidDoubleInput(costInput));
+                            }
+                            while (true) { 
+                                std::cout << "Enter the feedback: ";
+                                std::getline(std::cin, feedbackInput);
+                                try {
+                                    std::stoi(feedbackInput);
+                                    break;
+                                } catch (const std::invalid_argument& e) {
+                                    std::cerr << "Invalid input. Please enter an integer." << std::endl;
+                                }
+                            }
+                            if (input == "free") {
+                                freeAds.push_back(FreeAdvertisementImpl(title, content, std::stoi(feedbackInput)));
+                            }
+                            else if (input == "paid") {
+                                paidAds.push_back(PaidAdvertisementImpl(title, content, std::stod(costInput), std::stoi(feedbackInput)));
+                            }
                             break;
 
                         case 2:
-                            std::cout << "Advertisements:" << std::endl;
-                            ads.displayAllAds();
-                            std::cout << "Total Profit: $" << ads.getTotalProfit() << std::endl;
+                            if (freeAds.empty() && paidAds.empty()) {
+                                std::cout << "No ads to display." << std::endl;
+                                break;
+                            }
+                            if (!freeAds.empty()) {
+                                std::cout << "\n  Free Advertisements:" << std::endl;
+                                for (const auto& ad : freeAds) {
+                                    FreeAdvertisementDisplay adsDisplay(ad);
+                                    adsDisplay.displayAd();
+                                }
+                            }
+                            else {
+                                std::cout << "No free ads to display." << std::endl;
+                            }
+                            if (!paidAds.empty()) {
+                                std::cout << "\n  Paid Advertisements:" << std::endl;
+                                for (const auto& ad : paidAds) {
+                                    PaidAdvertisementDisplay adsDisplay(ad);
+                                    adsDisplay.displayAd();
+                                }
+                            }
+                            else {
+                                std::cout << "No paid ads to display." << std::endl;
+                            }
                             break;
 
                         case 3:
                             std::cout << "Enter advertisement Title: ";
-                            std::cin >> searchTitle;
-                            if (ads.getAdCount() < 1) {
+                            std::cin.ignore();
+                            std::getline(std::cin, searchTitle);
+                            if (freeAds.empty() && paidAds.empty()) {
                                 std::cout << "No advertisements available." << std::endl;
                                 continue;
                             }
-                            for (size_t i = 0; i < ads.getAdCount(); ++i) {
-                                if (ads.getAdTitle(i) == searchTitle) {
-                                    ads.displayAd(i);
+                            for (const auto& ad : freeAds) {
+                                if (ad.getTitle() == searchTitle) {
+                                    FreeAdvertisementDisplay adsDisplay(ad);
+                                    adsDisplay.displayAd();
                                     std::cout << "Do you want to delete this advertisement? (Y/N): ";
                                     std::cin >> input;
                                     if (input == "Y") {
-                                        ads.deleteAdvertisement(i);
+                                        freeAds.erase(freeAds.begin() + (&ad - &freeAds[0])); 
+                                        std::cout << "Advertisement deleted." << std::endl;
                                         break;
                                     }
                                     else if (input == "N") {
@@ -180,13 +264,33 @@ int main() {
                                     }
                                 }
                                 else {
-                                    std::cout << "Advertisement with title " << searchTitle << " not found." << std::endl;
+                                    for (const auto& ad : paidAds) {
+                                        if (ad.getTitle() == searchTitle) {
+                                            PaidAdvertisementDisplay adsDisplay(ad);
+                                            adsDisplay.displayAd();
+                                            std::cout << "Do you want to delete this advertisement? (Y/N): ";
+                                            std::cin >> input;
+                                            if (input == "Y") {
+                                                paidAds.erase(paidAds.begin() + (&ad - &paidAds[0])); 
+                                                std::cout << "Advertisement deleted." << std::endl;
+                                                break;
+                                            }
+                                            else if (input == "N") {
+                                                break;
+                                            }
+                                        }
+                                        else {
+                                            std::cout << "Advertisement with title '" << searchTitle << "' not found." << std::endl;
+                                        }
+                                    }
                                 }
                             }
                             break;
 
                         default:
                             std::cout << "Invalid choice. Try again." << std::endl;
+                            std::cin.clear();
+                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                             break;
                     }
 
@@ -201,6 +305,8 @@ int main() {
                 break;
 
             default:
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Invalid choice. Try again." << std::endl;
                 break;
         }

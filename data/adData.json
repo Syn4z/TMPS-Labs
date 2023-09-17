@@ -3,18 +3,18 @@
         "title": "Ad 1",
         "content": "Ad 1 Content",
         "cost": 50.0,
-        "revenue": 100.0
+        "feedback": 100
     },
     {
         "title": "Ad 2",
         "content": "Ad 2 Content",
         "cost": 75.0,
-        "revenue": 150.0
+        "feedback": 150
     },
     {
         "title": "Ad 3",
         "content": "Ad 3 Content",
         "cost": 60.0,
-        "revenue": 120.0
+        "feedback": 120
     }
 ]
