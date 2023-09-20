@@ -3,9 +3,9 @@
 #include <string>
 #include <sstream>
 #include <limits>
-#include "include/carManufacturing/PersonalCar.h"
 #include "src/carManufacturing/CarInfoDisplay.cpp"
 #include "src/carManufacturing/CarCosts.cpp"
+#include "src/carManufacturing/ComercialCar.cpp"
 #include "src/marketing/FreeAdvertisementDisplay.cpp"
 #include "src/marketing/PaidAdvertisementDisplay.cpp"
 
@@ -18,11 +18,17 @@ bool isValidDoubleInput(const std::string& input) {
 
 int main() {
     bool exitProgram = false;
-    std::vector<PersonalCar> cars;
-    cars.push_back(PersonalCar("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001"));
-    cars.push_back(PersonalCar("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002"));
-    cars.push_back(PersonalCar("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003"));
-    cars.push_back(PersonalCar("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004"));
+    std::vector<CarImpl> cars;
+    cars.push_back(CarImpl("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001"));
+    cars.push_back(CarImpl("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002"));
+    cars.push_back(CarImpl("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003"));
+    cars.push_back(CarImpl("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004"));
+    ComercialCar comercialCar("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001", "Truck");
+    comercialCar.setType("FireTruck");
+    CarInfoDisplay comercialCarInfoDisplay(comercialCar);
+    CarCosts comercialCarCosts(comercialCar);
+    double profit = comercialCarCosts.calculateProfit();
+    double costPrice = comercialCarCosts.getAllCosts();
 
     std::vector<FreeAdvertisementImpl> freeAds;
     std::vector<PaidAdvertisementImpl> paidAds;
@@ -67,6 +73,15 @@ int main() {
                                     break;
                                 }
                             }
+                            std::cout << "!!!!! Comercial Car Information !!!!!\n";
+                            comercialCarInfoDisplay.display();
+                            std::cout << comercialCar.getType() << std::endl;
+                            if (serialNr != "A" && comercialCar.getSerialNr() == serialNr) {
+                                comercialCarCosts.display();
+                            }
+                            std::cout << "\nAll Expenses: $" << costPrice << std::endl;
+                            std::cout << "Profit: $" << profit << std::endl;
+                            std::cout << "--------------------------" << std::endl;
                             for (const auto& car : cars) {
                                 if (car.getSerialNr() == serialNr || serialNr == "A") {
                                     std::cout << "\n  Car Information:" << std::endl;

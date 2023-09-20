@@ -1,9 +1,10 @@
 #include <iostream>
-#include "../include/carManufacturing/PersonalCar.h"
+#include "../include/carManufacturing/CarImpl.h"
+
 
 class CarCosts {
 public:
-    CarCosts(const PersonalCar& car) : car(car) {
+    CarCosts(const CarImpl& car) : car(car) {
         productionCost = car.getPrice() * 0.5;
         marketingCost = car.getPrice() * 0.1;
         dealerCost = car.getPrice() * 0.1;
@@ -31,5 +32,5 @@ private:
     double marketingCost;
     double dealerCost;
     double tax;
-    const PersonalCar& car;
+    const CarImpl& car;
 };

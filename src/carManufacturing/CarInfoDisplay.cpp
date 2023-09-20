@@ -1,10 +1,10 @@
 #include <iostream>
-#include "../include/carManufacturing/PersonalCar.h"
+#include "../include/carManufacturing/CarImpl.h"
 
 
 class CarInfoDisplay {
 public:
-    CarInfoDisplay(const PersonalCar& car) : car(car) {}
+    CarInfoDisplay(const CarImpl& car) : car(car) {}
     void display() const {
         std::cout << "Car Information:" << std::endl;
         std::cout << "Brand: " << car.getBrand() << std::endl;
@@ -17,5 +17,5 @@ public:
     }
 
 private:
-    const PersonalCar& car;
+    const CarImpl& car;
 };

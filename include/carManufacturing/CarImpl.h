@@ -5,9 +5,9 @@
 #include "Car.h"
 
 
-class PersonalCar : public Car {
+class CarImpl : public Car {
 public:
-    PersonalCar(const std::string& brand, const std::string& model, int year, const std::string features, double price, int quantity, const std::string& serialNr);
+    CarImpl(const std::string& brand, const std::string& model, int year, const std::string features, double price, int quantity, const std::string& serialNr);
     std::string getBrand() const;
     std::string getModel() const;
     int getYear() const;

@@ -7,7 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCES
     Main.cpp
-    src/carManufacturing/PersonalCar.cpp
+    src/carManufacturing/CarImpl.cpp
+    src/carManufacturing/ComercialCar.cpp
     src/carManufacturing/CarInfoDisplay.cpp
     src/carManufacturing/CarCosts.cpp
     src/marketing/FreeAdvertisementImpl.cpp
@@ -17,6 +18,7 @@ set(SOURCES
 )
 
 set(HEADERS
+    include/carManufacturing/Car.h
     include/marketing/Advertisement.h
     include/marketing/FreeAdvertisement.h
     include/marketing/PaidAdvertisement.h    
