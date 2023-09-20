@@ -52,8 +52,7 @@ public:
     ...
 ```
 ```
-ComercialCar comercialCar("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001", "Truck");
-    comercialCar.setType("FireTruck");
+ComercialCar comercialCar("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001", "FireTruck");
     CarInfoDisplay comercialCarInfoDisplay(comercialCar);
 ```
 

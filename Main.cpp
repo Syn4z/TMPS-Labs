@@ -23,8 +23,7 @@ int main() {
     cars.push_back(CarImpl("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002"));
     cars.push_back(CarImpl("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003"));
     cars.push_back(CarImpl("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004"));
-    ComercialCar comercialCar("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001", "Truck");
-    comercialCar.setType("FireTruck");
+    ComercialCar comercialCar("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001", "FireTruck");
     CarInfoDisplay comercialCarInfoDisplay(comercialCar);
     CarCosts comercialCarCosts(comercialCar);
     double profit = comercialCarCosts.calculateProfit();
