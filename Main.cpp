@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <memory>
 #include <string>
 #include <sstream>
 #include <limits>
@@ -18,16 +19,13 @@ bool isValidDoubleInput(const std::string& input) {
 
 int main() {
     bool exitProgram = false;
-    std::vector<CarImpl> cars;
-    cars.push_back(CarImpl("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001"));
-    cars.push_back(CarImpl("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002"));
-    cars.push_back(CarImpl("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003"));
-    cars.push_back(CarImpl("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004"));
-    ComercialCar comercialCar("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001", "FireTruck");
-    CarInfoDisplay comercialCarInfoDisplay(comercialCar);
-    CarCosts comercialCarCosts(comercialCar);
-    double profit = comercialCarCosts.calculateProfit();
-    double costPrice = comercialCarCosts.getAllCosts();
+    std::vector<std::shared_ptr<CarImpl>> cars;
+    cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P"));
+    cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
+    cars.push_back(std::make_shared<CarImpl>("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P"));
+    cars.push_back(std::make_shared<CarImpl>("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004-P"));
+    std::vector<std::shared_ptr<CarImpl>> comercialCars;
+    comercialCars.push_back(std::make_shared<ComercialCar>("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001-CM"));
 
     std::vector<FreeAdvertisementImpl> freeAds;
     std::vector<PaidAdvertisementImpl> paidAds;
@@ -72,24 +70,30 @@ int main() {
                                     break;
                                 }
                             }
-                            std::cout << "!!!!! Comercial Car Information !!!!!\n";
-                            comercialCarInfoDisplay.display();
-                            std::cout << comercialCar.getType() << std::endl;
-                            if (serialNr != "A" && comercialCar.getSerialNr() == serialNr) {
-                                comercialCarCosts.display();
+                            for (auto comercialCar : comercialCars) {
+                                CarInfoDisplay comercialCarInfoDisplay(*comercialCar);
+                                CarCosts comercialCarCosts(*comercialCar);
+                                comercialCar->setType();
+                                comercialCarInfoDisplay.display();
+                                if (serialNr != "A" && comercialCar->getSerialNr() == serialNr) {
+                                    comercialCarCosts.display();
+                                }
+                                double profit = comercialCarCosts.calculateProfit();
+                                double costPrice = comercialCarCosts.getAllCosts();
+                                std::cout << "\nAll Expenses: $" << costPrice << std::endl;
+                                std::cout << "Profit: $" << profit << std::endl;
+                                std::cout << "--------------------------" << std::endl;
                             }
-                            std::cout << "\nAll Expenses: $" << costPrice << std::endl;
-                            std::cout << "Profit: $" << profit << std::endl;
-                            std::cout << "--------------------------" << std::endl;
-                            for (const auto& car : cars) {
-                                if (car.getSerialNr() == serialNr || serialNr == "A") {
+                            for (auto& car : cars) {
+                                if (car->getSerialNr() == serialNr || serialNr == "A") {
+                                    car->setType();
                                     std::cout << "\n  Car Information:" << std::endl;
-                                    CarInfoDisplay carInfoDisplay(car);
-                                    CarCosts carCosts(car);
+                                    CarInfoDisplay carInfoDisplay(*car);
+                                    CarCosts carCosts(*car);
                                     carInfoDisplay.display();
                                     double profit = carCosts.calculateProfit();
                                     double costPrice = carCosts.getAllCosts();
-                                    if (serialNr != "A" && car.getSerialNr() == serialNr) {
+                                    if (serialNr != "A" && car->getSerialNr() == serialNr) {
                                         carCosts.display();
                                     }
                                     std::cout << "\nAll Expenses: $" << costPrice << std::endl;
@@ -132,8 +136,8 @@ int main() {
                             }
                             try {
                                 for (auto& car : cars) {
-                                    if (car.getSerialNr() == serialNr) {
-                                        car.setQuantity(newQuantity);
+                                    if (car->getSerialNr() == serialNr) {
+                                        car->setQuantity(newQuantity);
                                         std::cout << "Quantity updated for car with serial number " << serialNr << std::endl;
                                         carFound = true;
                                         break;

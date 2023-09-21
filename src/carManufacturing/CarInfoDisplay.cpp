@@ -14,6 +14,7 @@ public:
         std::cout << "Features: " << car.getFeatures() << std::endl;
         std::cout << "Quantity: " << car.getQuantity() << std::endl;
         std::cout << "Serial Number: " << car.getSerialNr() << std::endl;
+        std::cout << "Type: " << car.getType() << std::endl;
     }
 
 private:

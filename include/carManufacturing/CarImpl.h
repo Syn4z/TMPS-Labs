@@ -1,13 +1,12 @@
 #pragma once
 
 #include <string>
-#include <iostream>
 #include "Car.h"
-
 
 class CarImpl : public Car {
 public:
-    CarImpl(const std::string& brand, const std::string& model, int year, const std::string features, double price, int quantity, const std::string& serialNr);
+    CarImpl(const std::string& brand, const std::string& model, int year, const std::string& features, double price, int quantity, const std::string& serialNr);
+    static CarImpl& getInstance();
     std::string getBrand() const;
     std::string getModel() const;
     int getYear() const;
@@ -15,7 +14,10 @@ public:
     double getPrice() const;
     int getQuantity() const;
     std::string getSerialNr() const;
-    void setQuantity(int newQuantity) override;
+    std::string getType() const;
+    void setQuantity(int newQuantity);
+    virtual void setType();
+    std::string type;    
 
 private:
     std::string brand;

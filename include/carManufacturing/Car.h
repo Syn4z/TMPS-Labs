@@ -13,5 +13,7 @@ public:
     virtual double getPrice() const = 0;
     virtual int getQuantity() const = 0;
     virtual std::string getSerialNr() const = 0;
+    virtual std::string getType() const = 0;
     virtual void setQuantity(int newQuantity) = 0;
+    virtual void setType() = 0;
 };    

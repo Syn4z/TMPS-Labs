@@ -1,13 +1,22 @@
 #include "../include/carManufacturing/CarImpl.h"
 #include <iostream>
-
+#include <string>
 
 class ComercialCar : public CarImpl {
 public:
-    ComercialCar(const std::string& brand, const std::string& model, int year, const std::string features, double price, int quantity, const std::string& serialNr, const std::string& type) : 
-        CarImpl(brand, model, year, features, price, quantity, serialNr), type(type) {}
-    std::string getType() const { return type; }
+    ComercialCar(
+        const std::string& brand,
+        const std::string& model,
+        int year,
+        const std::string& features,
+        double price,
+        int quantity,
+        const std::string& serialNr
+    ) : CarImpl(brand, model, year, features, price, quantity, serialNr) {}
 
-private:
-    std::string type;
-};    
+    void setType() override {
+        if (getSerialNr().find("-CM") != std::string::npos) {
+            type = "Comercial";
+        }
+    } 
+};
