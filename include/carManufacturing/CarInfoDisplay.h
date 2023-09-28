@@ -1,6 +1,7 @@
-#include <iostream>
-#include "../include/carManufacturing/CarImpl.h"
+#pragma once
 
+#include "CarImpl.h"
+#include <iostream>
 
 class CarInfoDisplay {
 public:
