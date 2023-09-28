@@ -24,10 +24,10 @@ int main() {
     Product* porscheTaycan = supplier.SupplyProduct(electricCar);
 
     std::vector<Customer*> customers;
-    Customer* customer1 = Customer::GetInstance("John Doe", 30);
-    Customer* customer2 = Customer::GetInstance("Mark Yeet", 16);
-    Customer* customer3 = Customer::GetInstance("Jane Doe", 25);
-    Customer* customer4 = Customer::GetInstance("John Doe", 17);
+    [[maybe_unused]] Customer* customer1 = Customer::GetInstance("John Doe", 30);
+    [[maybe_unused]] Customer* customer2 = Customer::GetInstance("Mark Yeet", 16);
+    [[maybe_unused]] Customer* customer3 = Customer::GetInstance("Jane Doe", 20);
+    [[maybe_unused]] Customer* customer4 = Customer::GetInstance("John Doe", 17);
     std::vector<Customer*> allCustomers = Customer::GetAllCustomers();
 
     std::vector<std::shared_ptr<CarImpl>> cars;
@@ -35,15 +35,14 @@ int main() {
     cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
     cars.push_back(std::make_shared<CarImpl>("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P"));
     cars.push_back(std::make_shared<CarImpl>("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004-P"));
-    std::vector<std::shared_ptr<CarImpl>> comercialCars;
-    comercialCars.push_back(std::make_shared<CommercialCar>("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001-CM"));
+    std::vector<std::shared_ptr<CarImpl>> commercialCars;
+    commercialCars.push_back(std::make_shared<CommercialCar>("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001-CM"));
 
     std::vector<FreeAdvertisementImpl> freeAds;
     std::vector<PaidAdvertisementImpl> paidAds;
 
     while (!exitProgram) {
         int mainChoice;
-
         std::cout << "\nMain Menu Options:" << std::endl;
         std::cout << "1. Car Information" << std::endl;
         std::cout << "2. Marketing Information" << std::endl;
@@ -56,7 +55,6 @@ int main() {
             case 1: // Car Information Menu
                 while (true) {
                     int carChoice;
-
                     std::cout << "\nCar Information Menu:" << std::endl;
                     std::cout << "1. Display Car Information" << std::endl;
                     std::cout << "2. Change Car Quantity" << std::endl;
@@ -75,23 +73,23 @@ int main() {
                                 std::cout << "Enter the serial nr of the car/Enter 'A' for all cars: ";
                                 std::cin >> serialNr;
                                 if (serialNr.size() != 12 && serialNr.size() != 11 && serialNr != "A") {
-                                    std::cout << "Invalid serial number. Serial number must have exactly 9 characters." << std::endl;
+                                    std::cout << "Invalid serial number. Serial number must have exactly 11/12 characters." << std::endl;
                                     continue;
                                 }
                                 else {
                                     break;
                                 }
                             }
-                            for (auto comercialCar : comercialCars) {
-                                CarInfoDisplay comercialCarInfoDisplay(*comercialCar);
-                                CarCosts comercialCarCosts(*comercialCar);
-                                comercialCar->setType();
-                                comercialCarInfoDisplay.display();
-                                if (serialNr != "A" && comercialCar->getSerialNr() == serialNr) {
-                                    comercialCarCosts.display();
+                            for (const auto& commercialCar : commercialCars) {
+                                CarInfoDisplay commercialCarInfoDisplay(*commercialCar);
+                                CarCosts commercialCarCosts(*commercialCar);
+                                commercialCar->setType();
+                                commercialCarInfoDisplay.display();
+                                if (serialNr != "A" && commercialCar->getSerialNr() == serialNr) {
+                                    commercialCarCosts.display();
                                 }
-                                double profit = comercialCarCosts.calculateProfit();
-                                double costPrice = comercialCarCosts.getAllCosts();
+                                double profit = commercialCarCosts.calculateProfit();
+                                double costPrice = commercialCarCosts.getAllCosts();
                                 std::cout << "\nAll Expenses: $" << costPrice << std::endl;
                                 std::cout << "Profit: $" << profit << std::endl;
                                 std::cout << "--------------------------" << std::endl;
@@ -127,11 +125,11 @@ int main() {
                             while (true) {
                                 std::cout << "Enter the serial nr of the car:\n";
                                 std::getline(std::cin, serialNr);
-                                if (serialNr.size() == 9 && serialNr.find(' ') == std::string::npos) {
+                                if (serialNr.size() == 11 || serialNr.size() == 12 && serialNr.find(' ') == std::string::npos) {
                                     break;
                                 }
                                 else {
-                                    std::cout << "Invalid serial number. Serial number must have exactly 9 characters." << std::endl;
+                                    std::cout << "Invalid serial number. Serial number must have exactly 11/12 characters." << std::endl;
                                 }
                             }
                             while (true) {
@@ -182,7 +180,6 @@ int main() {
             case 2: // Marketing Information Menu
                 while (true) {
                     int marketingChoice;
-
                     std::cout << "\nMarketing Information Menu:" << std::endl;
                     std::cout << "1. Add Advertisement" << std::endl;
                     std::cout << "2. Show Advertisements" << std::endl;
@@ -237,10 +234,10 @@ int main() {
                                 }
                             }
                             if (input == "free") {
-                                freeAds.push_back(FreeAdvertisementImpl(title, content, std::stoi(feedbackInput)));
+                                freeAds.emplace_back(title, content, std::stoi(feedbackInput));
                             }
                             else if (input == "paid") {
-                                paidAds.push_back(PaidAdvertisementImpl(title, content, std::stod(costInput), std::stoi(feedbackInput)));
+                                paidAds.emplace_back(title, content, std::stod(costInput), std::stoi(feedbackInput));
                             }
                             break;
 
@@ -279,14 +276,14 @@ int main() {
                                 std::cout << "No advertisements available." << std::endl;
                                 continue;
                             }
-                            for (const auto& ad : freeAds) {
-                                if (ad.getTitle() == searchTitle) {
-                                    FreeAdvertisementDisplay adsDisplay(ad);
+                            for (const auto& freeAd : freeAds) {
+                                if (freeAd.getTitle() == searchTitle) {
+                                    FreeAdvertisementDisplay adsDisplay(freeAd);
                                     adsDisplay.displayAd();
                                     std::cout << "Do you want to delete this advertisement? (Y/N): ";
                                     std::cin >> input;
                                     if (input == "Y") {
-                                        freeAds.erase(freeAds.begin() + (&ad - &freeAds[0]));
+                                        freeAds.erase(freeAds.begin() + (&freeAd - &freeAds[0]));
                                         std::cout << "Advertisement deleted." << std::endl;
                                         break;
                                     }
@@ -295,14 +292,14 @@ int main() {
                                     }
                                 }
                                 else {
-                                    for (const auto& ad : paidAds) {
-                                        if (ad.getTitle() == searchTitle) {
-                                            PaidAdvertisementDisplay adsDisplay(ad);
+                                    for (const auto& paidAd : paidAds) {
+                                        if (paidAd.getTitle() == searchTitle) {
+                                            PaidAdvertisementDisplay adsDisplay(paidAd);
                                             adsDisplay.displayAd();
                                             std::cout << "Do you want to delete this advertisement? (Y/N): ";
                                             std::cin >> input;
                                             if (input == "Y") {
-                                                paidAds.erase(paidAds.begin() + (&ad - &paidAds[0]));
+                                                paidAds.erase(paidAds.begin() + (&paidAd - &paidAds[0]));
                                                 std::cout << "Advertisement deleted." << std::endl;
                                                 break;
                                             }
@@ -323,12 +320,11 @@ int main() {
                                 std::cout << "\n  Free Advertisement: " << ad.getTitle() << std::endl;
                                 for (auto customer : allCustomers)
                                 {
-                                    std::cout << "Customer Name: " << customer->GetName() << std::endl;
                                     if (ad.receiveAdvertisement(customer)) {
-                                        std::cout << "Customer is eligible for advertisement." << std::endl;
+                                        std::cout << customer->GetName() << " is eligible for this ad." << std::endl;
                                     }
                                     else {
-                                        std::cout << "Customer is NOT eligible for advertisement." << std::endl;
+                                        std::cout << customer->GetName() << " is NOT eligible for this ad." << std::endl;
                                     }
                                 }
                             }
@@ -336,12 +332,11 @@ int main() {
                                 std::cout << "\n  Paid Advertisement: " << ad.getTitle() << std::endl;
                                 for (auto customer : allCustomers)
                                 {
-                                    std::cout << "Customer: " << customer->GetName() << std::endl;
-                                    if (ad.receiveAdvertisement(customer)) {
-                                        std::cout << "Customer is eligible for advertisement." << std::endl;
+                                    if (ad.receiveAdvertisement(customer, 21)) {
+                                        std::cout << customer->GetName() << " is eligible for this ad." << std::endl;
                                     }
                                     else {
-                                        std::cout << "Customer is not eligible for advertisement." << std::endl;
+                                        std::cout << customer->GetName() << " is NOT eligible for this ad." << std::endl;
                                     }
                                 }
                             }
@@ -362,10 +357,9 @@ int main() {
                 }
                 break;
 
-            case 3:
+            case 3: // Production Information Menu
                 while (true) {
                     int productionChoice;
-
                     std::cout << "\nCar Information Menu:" << std::endl;
                     std::cout << "1. Build vehicles" << std::endl;
                     std::cout << "2. Back to Main Menu" << std::endl;

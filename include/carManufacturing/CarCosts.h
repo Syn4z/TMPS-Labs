@@ -5,7 +5,7 @@
 
 class CarCosts {
 public:
-    CarCosts(const CarImpl& car);
+    explicit CarCosts(const CarImpl& car);
 
     void display() const;
     double getAllCosts() const;

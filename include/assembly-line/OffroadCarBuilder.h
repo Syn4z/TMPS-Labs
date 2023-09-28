@@ -5,7 +5,7 @@
 class OffroadCarBuilder : public CarBuilder {
 public:
     OffroadCarBuilder();
-    ~OffroadCarBuilder();
+    ~OffroadCarBuilder() override;
     void buildEngine() override;
     void buildTransmission() override;
     void buildCarSuspension() override;

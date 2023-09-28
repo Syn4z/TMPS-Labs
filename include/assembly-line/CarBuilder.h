@@ -4,7 +4,7 @@
 
 class CarBuilder {
 public:
-    virtual ~CarBuilder() {}
+    virtual ~CarBuilder() = default;
     virtual void buildEngine() = 0;
     virtual void buildTransmission() = 0;
     virtual void buildCarSuspension() = 0;

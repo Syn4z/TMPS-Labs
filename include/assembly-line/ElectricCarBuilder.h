@@ -5,7 +5,7 @@
 class ElectricCarBuilder : public CarBuilder {
 public:
     ElectricCarBuilder();
-    ~ElectricCarBuilder();
+    ~ElectricCarBuilder() override;
     void buildEngine() override;
     void buildTransmission() override;
     void buildCarSuspension() override;

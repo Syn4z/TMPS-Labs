@@ -5,7 +5,7 @@
 class SportsCarBuilder : public CarBuilder {
 public:
     SportsCarBuilder();
-    ~SportsCarBuilder();
+    ~SportsCarBuilder() override;
     void buildEngine() override;
     void buildTransmission() override;
     void buildCarSuspension() override;

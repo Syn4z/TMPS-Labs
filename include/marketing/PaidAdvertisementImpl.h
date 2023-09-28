@@ -5,14 +5,13 @@
 
 class PaidAdvertisementImpl : public PaidAdvertisement {
 public:
-    PaidAdvertisementImpl(const std::string& title, const std::string& content, double cost, int feedback);
-
-    std::string getTitle() const;
-    std::string getContent() const;
-    double getCost() const;
-    int getFeedback() const;
-    bool getSuccess() const;
-    bool receiveAdvertisement(const Customer* customer) const;
+    PaidAdvertisementImpl(std::string  title, std::string  content, double cost, int feedback);
+    std::string getTitle() const override;
+    std::string getContent() const override;
+    double getCost() const override;
+    int getFeedback() const override;
+    bool getSuccess() const override;
+    bool receiveAdvertisement(const Customer* customer, int age) const override;
 
 private:
     std::string title;

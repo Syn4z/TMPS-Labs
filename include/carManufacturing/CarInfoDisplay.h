@@ -5,7 +5,7 @@
 
 class CarInfoDisplay {
 public:
-    CarInfoDisplay(const CarImpl& car) : car(car) {}
+    explicit CarInfoDisplay(const CarImpl& car) : car(car) {}
     void display() const {
         std::cout << "Car Information:" << std::endl;
         std::cout << "Brand: " << car.getBrand() << std::endl;

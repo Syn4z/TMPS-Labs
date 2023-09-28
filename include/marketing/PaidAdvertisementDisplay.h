@@ -5,8 +5,7 @@
 
 class PaidAdvertisementDisplay {
 public:
-    PaidAdvertisementDisplay(const PaidAdvertisementImpl& ad);
-
+    explicit PaidAdvertisementDisplay(const PaidAdvertisementImpl& ad);
     void displayAd() const;
 
 private:

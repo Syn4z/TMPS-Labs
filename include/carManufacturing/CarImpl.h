@@ -5,8 +5,7 @@
 
 class CarImpl : public Car {
 public:
-    CarImpl(const std::string& brand, const std::string& model, int year, const std::string& features, double price, int quantity, const std::string& serialNr);
-    static CarImpl& getInstance();
+    CarImpl(std::string  brand, std::string  model, int year, std::string  features, double price, int quantity, std::string  serialNr);
     std::string getBrand() const override;
     std::string getModel() const override;
     int getYear() const override;

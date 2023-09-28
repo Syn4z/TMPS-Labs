@@ -1,7 +1,9 @@
+#include <utility>
+
 #include "../../include/marketing/PaidAdvertisementImpl.h"
 
-PaidAdvertisementImpl::PaidAdvertisementImpl(const std::string& title, const std::string& content, double cost, int feedback)
-        : title(title), content(content), cost(cost), feedback(feedback) {}
+PaidAdvertisementImpl::PaidAdvertisementImpl(std::string  title, std::string  content, double cost, int feedback)
+        : title(std::move(title)), content(std::move(content)), cost(cost), feedback(feedback) {}
 
 std::string PaidAdvertisementImpl::getTitle() const {
     return title;
@@ -23,6 +25,6 @@ bool PaidAdvertisementImpl::getSuccess() const {
     return feedback > cost * 0.3;
 }
 
-bool PaidAdvertisementImpl::receiveAdvertisement(const Customer* customer) const {
-    return customer->GetAge() > 18;
+bool PaidAdvertisementImpl::receiveAdvertisement(const Customer* customer, int age) const {
+    return customer->GetAge() > age;
 }

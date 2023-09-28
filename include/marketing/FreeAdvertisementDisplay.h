@@ -5,8 +5,7 @@
 
 class FreeAdvertisementDisplay {
 public:
-    FreeAdvertisementDisplay(const FreeAdvertisementImpl& ad);
-
+    explicit FreeAdvertisementDisplay(const FreeAdvertisementImpl& ad);
     void displayAd() const;
 
 private:
