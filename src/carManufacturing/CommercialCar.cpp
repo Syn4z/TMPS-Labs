@@ -1,5 +1,4 @@
 #include "../include/carManufacturing/CarImpl.h"
-#include <iostream>
 #include <string>
 
 class ComercialCar : public CarImpl {
@@ -18,5 +17,5 @@ public:
         if (getSerialNr().find("-CM") != std::string::npos) {
             type = "Comercial";
         }
-    } 
+    }
 };

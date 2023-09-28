@@ -1,3 +1,5 @@
 CarManufacturer
 build/
 .vscode/
+cmake-build-debug/
+.idea/

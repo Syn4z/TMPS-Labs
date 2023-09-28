@@ -18,6 +18,9 @@ public:
             return false;
         } 
     }
+    bool receiveAdvertisement(const Customer* customer) const {
+        return customer->GetAge() > 18;
+    }
 
 private:
     std::string title;

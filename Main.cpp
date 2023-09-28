@@ -6,7 +6,8 @@
 #include <limits>
 #include "src/carManufacturing/CarInfoDisplay.cpp"
 #include "src/carManufacturing/CarCosts.cpp"
-#include "src/carManufacturing/ComercialCar.cpp"
+#include "src/carManufacturing/CommercialCar.cpp"
+#include "include/marketing/Customer.h"
 #include "src/marketing/FreeAdvertisementDisplay.cpp"
 #include "src/marketing/PaidAdvertisementDisplay.cpp"
 
@@ -19,6 +20,14 @@ bool isValidDoubleInput(const std::string& input) {
 
 int main() {
     bool exitProgram = false;
+    std::vector<Customer*> customers;
+
+    Customer* customer1 = Customer::GetInstance("John Doe", 30);
+    Customer* customer2 = Customer::GetInstance("Mark Yeet", 16);
+    Customer* customer3 = Customer::GetInstance("Jane Doe", 25);
+    Customer* customer4 = Customer::GetInstance("John Doe", 17);
+    std::vector<Customer*> allCustomers = Customer::GetAllCustomers();
+
     std::vector<std::shared_ptr<CarImpl>> cars;
     cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P"));
     cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
@@ -105,10 +114,10 @@ int main() {
                                         break;
                                     }
                                 }
-                            } 
+                            }
                             if (!carFound) {
                                 std::cout << "Car with serial number " << serialNr << " not found." << std::endl;
-                            }   
+                            }
                             break;
 
                         case 2:
@@ -126,7 +135,7 @@ int main() {
                                 std::cout << "Enter the new quantity as an integer: ";
                                 std::cin >> input;
                                 try {
-                                    newQuantity = std::stoi(input); 
+                                    newQuantity = std::stoi(input);
                                     break;
                                 } catch (std::invalid_argument&) {
                                     std::cerr << "Invalid input. Please enter a valid integer." << std::endl;
@@ -175,7 +184,8 @@ int main() {
                     std::cout << "1. Add Advertisement" << std::endl;
                     std::cout << "2. Show Advertisements" << std::endl;
                     std::cout << "3. Search Advertisement" << std::endl;
-                    std::cout << "4. Back to Main Menu" << std::endl;
+                    std::cout << "4. Display Customer Availability" << std::endl;
+                    std::cout << "5. Back to Main Menu" << std::endl;
                     std::cout << "Enter your choice: ";
                     std::cin >> marketingChoice;
                     std::string searchTitle;
@@ -213,7 +223,7 @@ int main() {
                                     std::getline(std::cin, costInput);
                                 } while (!isValidDoubleInput(costInput));
                             }
-                            while (true) { 
+                            while (true) {
                                 std::cout << "Enter the feedback: ";
                                 std::getline(std::cin, feedbackInput);
                                 try {
@@ -273,7 +283,7 @@ int main() {
                                     std::cout << "Do you want to delete this advertisement? (Y/N): ";
                                     std::cin >> input;
                                     if (input == "Y") {
-                                        freeAds.erase(freeAds.begin() + (&ad - &freeAds[0])); 
+                                        freeAds.erase(freeAds.begin() + (&ad - &freeAds[0]));
                                         std::cout << "Advertisement deleted." << std::endl;
                                         break;
                                     }
@@ -289,7 +299,7 @@ int main() {
                                             std::cout << "Do you want to delete this advertisement? (Y/N): ";
                                             std::cin >> input;
                                             if (input == "Y") {
-                                                paidAds.erase(paidAds.begin() + (&ad - &paidAds[0])); 
+                                                paidAds.erase(paidAds.begin() + (&ad - &paidAds[0]));
                                                 std::cout << "Advertisement deleted." << std::endl;
                                                 break;
                                             }
@@ -305,6 +315,35 @@ int main() {
                             }
                             break;
 
+                        case 4:
+                            for (const auto& ad : freeAds) {
+                                std::cout << "\n  Free Advertisement: " << ad.getTitle() << std::endl;
+                                for (auto customer : allCustomers)
+                                {
+                                    std::cout << "Customer Name: " << customer->GetName() << std::endl;
+                                    if (ad.receiveAdvertisement(customer)) {
+                                        std::cout << "Customer is eligible for advertisement." << std::endl;
+                                    }
+                                    else {
+                                        std::cout << "Customer is not eligible for advertisement." << std::endl;
+                                    }
+                                }
+                            }
+                            for (const auto& ad : paidAds) {
+                                std::cout << "\n  Paid Advertisement: " << ad.getTitle() << std::endl;
+                                for (auto customer : allCustomers)
+                                {
+                                    std::cout << "Customer: " << customer->GetName() << std::endl;
+                                    if (ad.receiveAdvertisement(customer)) {
+                                        std::cout << "Customer is eligible for advertisement." << std::endl;
+                                    }
+                                    else {
+                                        std::cout << "Customer is not eligible for advertisement." << std::endl;
+                                    }
+                                }
+                            }
+                            break;
+
                         default:
                             std::cout << "Invalid choice. Try again." << std::endl;
                             std::cin.clear();
@@ -312,7 +351,7 @@ int main() {
                             break;
                     }
 
-                    if (marketingChoice == 4) {
+                    if (marketingChoice == 5) {
                         break;
                     }
                 }
@@ -328,7 +367,7 @@ int main() {
                 std::cout << "Invalid choice. Try again." << std::endl;
                 break;
         }
-    }      
+    }
 
     return 0;
 }
