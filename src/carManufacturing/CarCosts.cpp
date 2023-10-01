@@ -1,6 +1,6 @@
 #include "../../include/carManufacturing/CarCosts.h"
 
-CarCosts::CarCosts(const CarImpl& car) : car(car) {
+CarCosts::CarCosts(const CarInterface& car) : car(car) {
     productionCost = car.getPrice() * 0.5;
     marketingCost = car.getPrice() * 0.1;
     dealerCost = car.getPrice() * 0.1;

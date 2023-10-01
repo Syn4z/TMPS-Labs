@@ -2,10 +2,9 @@
 
 #include <string>
 
-
-class Car {
+class CarInterface {
 public:
-    virtual ~Car() = default;
+    virtual ~CarInterface() = default;
     virtual std::string getBrand() const = 0;
     virtual std::string getModel() const = 0;
     virtual int getYear() const = 0;

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CarBuilder.h"
+#include "builder/CarBuilder.h"
 
 class Assembly {
 public:
-    Product* SupplyProduct(CarBuilder& builder);
+    static Product* SupplyProduct(CarBuilder& builder);
 };

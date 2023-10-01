@@ -1,5 +1,4 @@
-#include "../../include/assembly-line/ElectricCarBuilder.h"
-#include "../../include/assembly-line/Product.h"
+#include "assembly-line/builder/ElectricCarBuilder.h"
 
 ElectricCarBuilder::ElectricCarBuilder() {
     product = new Product();
@@ -10,23 +9,23 @@ ElectricCarBuilder::~ElectricCarBuilder() {
 }
 
 void ElectricCarBuilder::buildEngine() {
-    product->parts_.push_back("2 AC synchronous electric motors");
+    product->parts_.emplace_back("2 AC synchronous electric motors");
 }
 
 void ElectricCarBuilder::buildTransmission() {
-    product->parts_.push_back("2-speed automatic (AWD)");
+    product->parts_.emplace_back("2-speed automatic (AWD)");
 }
 
 void ElectricCarBuilder::buildCarSuspension() {
-    product->parts_.push_back("Air suspension");
+    product->parts_.emplace_back("Air suspension");
 }
 
 void ElectricCarBuilder::buildSteering() {
-    product->parts_.push_back("4D Chassis Control");
+    product->parts_.emplace_back("4D Chassis Control");
 }
 
 void ElectricCarBuilder::buildBody() {
-    product->parts_.push_back("Sedan");
+    product->parts_.emplace_back("Sedan");
 }
 
 Product* ElectricCarBuilder::GetProduct() {

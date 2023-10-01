@@ -1,11 +1,10 @@
 #pragma once
 
-#include <string>
-#include "CarInterface.h"
+#include "../CarInterface.h"
 
-class CarImpl : public CarInterface {
+class Sedan : public CarInterface {
 public:
-    CarImpl(std::string  brand, std::string  model, int year, std::string  features, double price, int quantity, std::string  serialNr);
+    Sedan(std::string brand, std::string model, int year, std::string features, double price, int quantity, std::string serialNr);
     std::string getBrand() const override;
     std::string getModel() const override;
     int getYear() const override;
@@ -16,14 +15,14 @@ public:
     std::string getType() const override;
     void setQuantity(int newQuantity) override;
     void setType() override;
-    std::string type;
 
 private:
-    std::string brand;
-    std::string model;
-    int year;
-    double price;
-    std::string features;
-    int quantity;
-    std::string serialNr;
+    std::string brand_;
+    std::string model_;
+    int year_;
+    std::string features_;
+    double price_;
+    int quantity_;
+    std::string serialNr_;
+    std::string type_;
 };

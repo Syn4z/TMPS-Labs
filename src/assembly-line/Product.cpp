@@ -1,4 +1,4 @@
-#include "../../include/assembly-line//Product.h"
+#include "../../include/assembly-line/Product.h"
 #include <iostream>
 
 void Product::ShowParts() const {

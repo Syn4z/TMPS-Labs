@@ -1,11 +1,11 @@
 #pragma once
 
-#include "CarImpl.h"
+#include "CarInterface.h"
 #include <iostream>
 
 class CarInfoDisplay {
 public:
-    explicit CarInfoDisplay(const CarImpl& car) : car(car) {}
+    explicit CarInfoDisplay(const CarInterface& car) : car(car) {}
     void display() const {
         std::cout << "Car Information:" << std::endl;
         std::cout << "Brand: " << car.getBrand() << std::endl;
@@ -19,5 +19,5 @@ public:
     }
 
 private:
-    const CarImpl& car;
+    const CarInterface& car;
 };

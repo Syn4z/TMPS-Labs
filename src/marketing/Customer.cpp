@@ -1,22 +1,19 @@
 #include "../include/marketing/Customer.h"
-#include <iostream>
+#include <utility>
 
 std::vector<Customer*> Customer::instances_;
 std::mutex Customer::mutex_;
-
-Customer::Customer(const std::string& name, int age) : name_(name), age_(age) {}
+Customer::Customer(std::string  name, int age) : name_(std::move(name)), age_(age) {}
 
 Customer* Customer::GetInstance(const std::string& name, int age)
 {
     std::lock_guard<std::mutex> lock(mutex_);
     for (Customer* customer : instances_) {
         if (customer->GetName() == name && customer->GetAge() == age) {
-            return customer; // Return existing instance if found
+            return customer;
         }
     }
-
-    // If not found, create a new instance
-    Customer* newCustomer = new Customer(name, age);
+    auto* newCustomer = new Customer(name, age);
     instances_.push_back(newCustomer);
     return newCustomer;
 }

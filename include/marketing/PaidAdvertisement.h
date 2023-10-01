@@ -4,7 +4,6 @@
 #include "Advertisement.h"
 #include "Customer.h"
 
-
 class PaidAdvertisement : public Advertisement {
 public:
     virtual double getCost() const = 0;

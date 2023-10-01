@@ -1,7 +1,8 @@
+#include <utility>
 #include "../../include/marketing/FreeAdvertisementImpl.h"
 
-FreeAdvertisementImpl::FreeAdvertisementImpl(const std::string& title, const std::string& content, int feedback)
-        : title(title), content(content), feedback(feedback) {}
+FreeAdvertisementImpl::FreeAdvertisementImpl(std::string  title, std::string  content, int feedback)
+        : title(std::move(title)), content(std::move(content)), feedback(feedback) {}
 
 std::string FreeAdvertisementImpl::getTitle() const {
     return title;

@@ -2,7 +2,6 @@
 
 #include <string>
 
-
 class Advertisement {
 public:
     virtual ~Advertisement() = default;

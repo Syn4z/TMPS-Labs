@@ -5,7 +5,7 @@
 
 class FreeAdvertisementImpl : public FreeAdvertisement {
 public:
-    FreeAdvertisementImpl(const std::string& title, const std::string& content, int feedback);
+    FreeAdvertisementImpl(std::string  title, std::string  content, int feedback);
     std::string getTitle() const override;
     std::string getContent() const override;
     int getFeedback() const override;

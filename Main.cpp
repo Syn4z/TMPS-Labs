@@ -1,4 +1,5 @@
 #include <iostream>
+#include <utility>
 #include <vector>
 #include <memory>
 #include <string>
@@ -6,6 +7,13 @@
 #include <limits>
 #include "MasterHeader.h"
 
+void ClientCode(const CarFactory& factory, std::string brand, std::string model, int year, std::string features, double price, int quantity, std::string serialNr) {
+    CarInterface* car = factory.CreateCar(std::move(brand), std::move(model), year, std::move(features), price, quantity, std::move(serialNr));
+    car->setType();
+    CarInfoDisplay car1(*car);
+    car1.display();
+    delete car;
+}
 
 bool isValidDoubleInput(const std::string& input) {
     std::istringstream stream(input);
@@ -15,13 +23,14 @@ bool isValidDoubleInput(const std::string& input) {
 
 int main() {
     bool exitProgram = false;
-    Assembly supplier;
+    CarFactory* sedanFactory = new SedanFactory();
+    CarFactory* suvFactory = new SUVFactory();
     SportsCarBuilder sportsCar;
     OffroadCarBuilder offroadCar;
     ElectricCarBuilder electricCar;
-    Product* porsche911 = supplier.SupplyProduct(sportsCar);
-    Product* toyotaTacoma = supplier.SupplyProduct(offroadCar);
-    Product* porscheTaycan = supplier.SupplyProduct(electricCar);
+    auto* porsche911 = new Product(*Assembly::SupplyProduct(sportsCar));
+    auto* toyotaTacoma = new Product(*Assembly::SupplyProduct(offroadCar));
+    auto* porscheTaycan = new Product(*Assembly::SupplyProduct(electricCar));
 
     std::vector<Customer*> customers;
     [[maybe_unused]] Customer* customer1 = Customer::GetInstance("John Doe", 30);
@@ -44,7 +53,7 @@ int main() {
     while (!exitProgram) {
         int mainChoice;
         std::cout << "\nMain Menu Options:" << std::endl;
-        std::cout << "1. Car Information" << std::endl;
+        std::cout << "1. CarInterface Information" << std::endl;
         std::cout << "2. Marketing Information" << std::endl;
         std::cout << "3. Production Information" << std::endl;
         std::cout << "4. Exit" << std::endl;
@@ -203,9 +212,8 @@ int main() {
                                 std::cin >> input;
 
                                 for (char& c : input) {
-                                    c = std::tolower(c);
+                                    c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
                                 }
-
                                 if (input == "free" || input == "paid") {
                                     break;
                                 } else {
@@ -360,9 +368,10 @@ int main() {
             case 3: // Production Information Menu
                 while (true) {
                     int productionChoice;
-                    std::cout << "\nCar Information Menu:" << std::endl;
-                    std::cout << "1. Build vehicles" << std::endl;
-                    std::cout << "2. Back to Main Menu" << std::endl;
+                    std::cout << "\nProduction Information Menu:" << std::endl;
+                    std::cout << "1. Build vehicle parts" << std::endl;
+                    std::cout << "2. View assembled vehicles on factory" << std::endl;
+                    std::cout << "3. Back to Main Menu" << std::endl;
                     std::cout << "Enter your choice: ";
                     std::cin >> productionChoice;
 
@@ -374,12 +383,18 @@ int main() {
                             toyotaTacoma->ShowParts();
                             std::cout << "\nPorsche Taycan parts: ";
                             porscheTaycan->ShowParts();
-                            delete porsche911;
-                            delete toyotaTacoma;
-                            delete porscheTaycan;
                             break;
 
                         case 2:
+                            std::cout << "Factory Produced:\n" << std::endl;
+                            ClientCode(*sedanFactory, "Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P");
+                            std::cout << std::endl;
+                            ClientCode(*sedanFactory, "Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P");
+                            std::cout << std::endl;
+                            ClientCode(*suvFactory, "Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P");
+                            break;
+
+                        case 3:
                             break;
 
                         default:
@@ -388,7 +403,7 @@ int main() {
                             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                             break;
                     }
-                    if (productionChoice == 2) {
+                    if (productionChoice == 3) {
                         break;
                     }
                 }
@@ -405,6 +420,11 @@ int main() {
                 break;
         }
     }
+    delete sedanFactory;
+    delete suvFactory;
+    delete porsche911;
+    delete toyotaTacoma;
+    delete porscheTaycan;
 
     return 0;
 }

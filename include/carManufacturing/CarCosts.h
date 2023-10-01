@@ -1,12 +1,11 @@
 #pragma once
 
-#include "CarImpl.h"
+#include "CarInterface.h"
 #include <iostream>
 
 class CarCosts {
 public:
-    explicit CarCosts(const CarImpl& car);
-
+    explicit CarCosts(const CarInterface& car);
     void display() const;
     double getAllCosts() const;
     double calculateProfit() const;
@@ -16,5 +15,5 @@ private:
     double marketingCost;
     double dealerCost;
     double tax;
-    const CarImpl& car;
+    const CarInterface& car;
 };
