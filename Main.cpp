@@ -23,6 +23,24 @@ bool isValidDoubleInput(const std::string& input) {
 
 int main() {
     bool exitProgram = false;
+    // Cars
+    std::vector<std::shared_ptr<CarImpl>> cars;
+    std::vector<std::shared_ptr<CarImpl>> commercialCars;
+    // Marketing
+    std::vector<FreeAdvertisementImpl> freeAds;
+    std::vector<PaidAdvertisementImpl> paidAds;
+    std::vector<Customer*> customers;
+    [[maybe_unused]] Customer* customer1 = Customer::GetInstance("John Doe", 30);
+    [[maybe_unused]] Customer* customer2 = Customer::GetInstance("Mark Yeet", 16);
+    [[maybe_unused]] Customer* customer3 = Customer::GetInstance("Jane Doe", 20);
+    [[maybe_unused]] Customer* customer4 = Customer::GetInstance("John Doe", 17);
+    std::vector<Customer*> allCustomers = Customer::GetAllCustomers();
+    // Production
+    SportsCarBuilder sportsCar;
+    OffroadCarBuilder offroadCar;
+    ElectricCarBuilder electricCar;
+    // Staff
+    EmployeeFactory employeeFactory;
 
     while (!exitProgram) {
         int mainChoice;
@@ -34,13 +52,6 @@ int main() {
         std::cout << "5. Exit" << std::endl;
         std::cout << "Enter your choice: ";
         std::cin >> mainChoice;
-        std::vector<std::shared_ptr<CarImpl>> cars;
-        cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P"));
-        cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
-        cars.push_back(std::make_shared<CarImpl>("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P"));
-        cars.push_back(std::make_shared<CarImpl>("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004-P"));
-        std::vector<std::shared_ptr<CarImpl>> commercialCars;
-        commercialCars.push_back(std::make_shared<CommercialCar>("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001-CM"));
 
         switch (mainChoice) {
             case 1: // Car Information Menu
@@ -57,6 +68,11 @@ int main() {
                     int newQuantity;
                     std::string input;
                     bool carFound = false;
+                    cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P"));
+                    cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
+                    cars.push_back(std::make_shared<CarImpl>("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P"));
+                    cars.push_back(std::make_shared<CarImpl>("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004-P"));
+                    commercialCars.push_back(std::make_shared<CommercialCar>("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001-CM"));
 
                     switch (carChoice) {
                         case 1:
@@ -186,14 +202,6 @@ int main() {
                     std::string feedbackInput;
                     std::string title;
                     std::string content;
-                    std::vector<FreeAdvertisementImpl> freeAds;
-                    std::vector<PaidAdvertisementImpl> paidAds;
-                    std::vector<Customer*> customers;
-                    [[maybe_unused]] Customer* customer1 = Customer::GetInstance("John Doe", 30);
-                    [[maybe_unused]] Customer* customer2 = Customer::GetInstance("Mark Yeet", 16);
-                    [[maybe_unused]] Customer* customer3 = Customer::GetInstance("Jane Doe", 20);
-                    [[maybe_unused]] Customer* customer4 = Customer::GetInstance("John Doe", 17);
-                    std::vector<Customer*> allCustomers = Customer::GetAllCustomers();
 
                     switch (marketingChoice) {
                         case 1:
@@ -364,9 +372,6 @@ int main() {
                     std::cout << "3. Back to Main Menu" << std::endl;
                     std::cout << "Enter your choice: ";
                     std::cin >> productionChoice;
-                    SportsCarBuilder sportsCar;
-                    OffroadCarBuilder offroadCar;
-                    ElectricCarBuilder electricCar;
                     auto* porsche911 = new Product(*Assembly::SupplyProduct(sportsCar));
                     auto* toyotaTacoma = new Product(*Assembly::SupplyProduct(offroadCar));
                     auto* porscheTaycan = new Product(*Assembly::SupplyProduct(electricCar));
@@ -375,6 +380,7 @@ int main() {
 
                     switch (productionChoice) {
                         case 1:
+                            std::cout << "\n  Parts built:" << std::endl;
                             std::cout << "Porsche 911 parts: ";
                             porsche911->ShowParts();
                             std::cout << "\nToyota Tacoma parts: ";
@@ -420,9 +426,8 @@ int main() {
                     std::cout << "2. Back to Main Menu" << std::endl;
                     std::cout << "Enter your choice: ";
                     std::cin >> staffChoice;
-                    EmployeeFactory employee_factory;
-                    Employee* manager = employee_factory.CreateEmployee(MANAGER);
-                    Employee* developer = employee_factory.CreateEmployee(DEVELOPER);
+                    Employee* manager = employeeFactory.CreateEmployee(MANAGER);
+                    Employee* developer = employeeFactory.CreateEmployee(DEVELOPER);
 
                     switch (staffChoice) {
                         case 1:
