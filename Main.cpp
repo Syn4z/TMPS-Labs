@@ -23,42 +23,24 @@ bool isValidDoubleInput(const std::string& input) {
 
 int main() {
     bool exitProgram = false;
-    CarFactory* sedanFactory = new SedanFactory();
-    CarFactory* suvFactory = new SUVFactory();
-    SportsCarBuilder sportsCar;
-    OffroadCarBuilder offroadCar;
-    ElectricCarBuilder electricCar;
-    auto* porsche911 = new Product(*Assembly::SupplyProduct(sportsCar));
-    auto* toyotaTacoma = new Product(*Assembly::SupplyProduct(offroadCar));
-    auto* porscheTaycan = new Product(*Assembly::SupplyProduct(electricCar));
-
-    std::vector<Customer*> customers;
-    [[maybe_unused]] Customer* customer1 = Customer::GetInstance("John Doe", 30);
-    [[maybe_unused]] Customer* customer2 = Customer::GetInstance("Mark Yeet", 16);
-    [[maybe_unused]] Customer* customer3 = Customer::GetInstance("Jane Doe", 20);
-    [[maybe_unused]] Customer* customer4 = Customer::GetInstance("John Doe", 17);
-    std::vector<Customer*> allCustomers = Customer::GetAllCustomers();
-
-    std::vector<std::shared_ptr<CarImpl>> cars;
-    cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P"));
-    cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
-    cars.push_back(std::make_shared<CarImpl>("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P"));
-    cars.push_back(std::make_shared<CarImpl>("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004-P"));
-    std::vector<std::shared_ptr<CarImpl>> commercialCars;
-    commercialCars.push_back(std::make_shared<CommercialCar>("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001-CM"));
-
-    std::vector<FreeAdvertisementImpl> freeAds;
-    std::vector<PaidAdvertisementImpl> paidAds;
 
     while (!exitProgram) {
         int mainChoice;
         std::cout << "\nMain Menu Options:" << std::endl;
-        std::cout << "1. CarInterface Information" << std::endl;
+        std::cout << "1. Car Information" << std::endl;
         std::cout << "2. Marketing Information" << std::endl;
         std::cout << "3. Production Information" << std::endl;
-        std::cout << "4. Exit" << std::endl;
+        std::cout << "4. Staff Information" << std::endl;
+        std::cout << "5. Exit" << std::endl;
         std::cout << "Enter your choice: ";
         std::cin >> mainChoice;
+        std::vector<std::shared_ptr<CarImpl>> cars;
+        cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P"));
+        cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
+        cars.push_back(std::make_shared<CarImpl>("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P"));
+        cars.push_back(std::make_shared<CarImpl>("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004-P"));
+        std::vector<std::shared_ptr<CarImpl>> commercialCars;
+        commercialCars.push_back(std::make_shared<CommercialCar>("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001-CM"));
 
         switch (mainChoice) {
             case 1: // Car Information Menu
@@ -133,7 +115,7 @@ int main() {
                         case 2:
                             while (true) {
                                 std::cout << "Enter the serial nr of the car:\n";
-                                std::getline(std::cin, serialNr);
+                                std::cin >> serialNr;
                                 if (serialNr.size() == 11 || serialNr.size() == 12 && serialNr.find(' ') == std::string::npos) {
                                     break;
                                 }
@@ -204,6 +186,14 @@ int main() {
                     std::string feedbackInput;
                     std::string title;
                     std::string content;
+                    std::vector<FreeAdvertisementImpl> freeAds;
+                    std::vector<PaidAdvertisementImpl> paidAds;
+                    std::vector<Customer*> customers;
+                    [[maybe_unused]] Customer* customer1 = Customer::GetInstance("John Doe", 30);
+                    [[maybe_unused]] Customer* customer2 = Customer::GetInstance("Mark Yeet", 16);
+                    [[maybe_unused]] Customer* customer3 = Customer::GetInstance("Jane Doe", 20);
+                    [[maybe_unused]] Customer* customer4 = Customer::GetInstance("John Doe", 17);
+                    std::vector<Customer*> allCustomers = Customer::GetAllCustomers();
 
                     switch (marketingChoice) {
                         case 1:
@@ -374,6 +364,14 @@ int main() {
                     std::cout << "3. Back to Main Menu" << std::endl;
                     std::cout << "Enter your choice: ";
                     std::cin >> productionChoice;
+                    SportsCarBuilder sportsCar;
+                    OffroadCarBuilder offroadCar;
+                    ElectricCarBuilder electricCar;
+                    auto* porsche911 = new Product(*Assembly::SupplyProduct(sportsCar));
+                    auto* toyotaTacoma = new Product(*Assembly::SupplyProduct(offroadCar));
+                    auto* porscheTaycan = new Product(*Assembly::SupplyProduct(electricCar));
+                    CarFactory* sedanFactory = new SedanFactory();
+                    CarFactory* suvFactory = new SUVFactory();
 
                     switch (productionChoice) {
                         case 1:
@@ -386,7 +384,7 @@ int main() {
                             break;
 
                         case 2:
-                            std::cout << "Factory Produced:\n" << std::endl;
+                            std::cout << "\n  Factory Produced:\n" << std::endl;
                             ClientCode(*sedanFactory, "Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P");
                             std::cout << std::endl;
                             ClientCode(*sedanFactory, "Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P");
@@ -403,13 +401,55 @@ int main() {
                             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                             break;
                     }
+                    delete sedanFactory;
+                    delete suvFactory;
+                    delete porsche911;
+                    delete toyotaTacoma;
+                    delete porscheTaycan;
                     if (productionChoice == 3) {
                         break;
                     }
                 }
                 break;
 
-            case 4:
+            case 4: // Staff Information Menu
+                while (true) {
+                    int staffChoice;
+                    std::cout << "\nStaff Information Menu:" << std::endl;
+                    std::cout << "1. Display Staff Information" << std::endl;
+                    std::cout << "2. Back to Main Menu" << std::endl;
+                    std::cout << "Enter your choice: ";
+                    std::cin >> staffChoice;
+                    EmployeeFactory employee_factory;
+                    Employee* manager = employee_factory.CreateEmployee(MANAGER);
+                    Employee* developer = employee_factory.CreateEmployee(DEVELOPER);
+
+                    switch (staffChoice) {
+                        case 1:
+                            std::cout << "\n  Staff Information:" << std::endl;
+                            manager->Display();
+                            std::cout << "\n";
+                            developer->Display();
+                            break;
+
+                        case 2:
+                            break;
+
+                        default:
+                            std::cout << "Invalid choice. Try again." << std::endl;
+                            std::cin.clear();
+                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                            break;
+                    }
+                    delete manager;
+                    delete developer;
+                    if (staffChoice == 2) {
+                        break;
+                    }
+                }
+                break;
+
+            case 5:
                 exitProgram = true;
                 break;
 
@@ -420,11 +460,6 @@ int main() {
                 break;
         }
     }
-    delete sedanFactory;
-    delete suvFactory;
-    delete porsche911;
-    delete toyotaTacoma;
-    delete porscheTaycan;
 
     return 0;
 }

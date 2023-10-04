@@ -12,3 +12,4 @@
 #include "include/assembly-line/Assembly.h"
 #include "include/carManufacturing/factory/SedanFactory.h"
 #include "include/carManufacturing/factory/SUVFactory.h"
+#include "include/personnel/EmployeeFactory.h"
