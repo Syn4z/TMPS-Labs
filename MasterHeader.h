@@ -1,3 +1,10 @@
+#include <iostream>
+#include <utility>
+#include <vector>
+#include <memory>
+#include <string>
+#include <sstream>
+#include <limits>
 #include "include/carManufacturing/CarInfoDisplay.h"
 #include "include/carManufacturing/CarCosts.h"
 #include "include/carManufacturing/CommercialCar.h"

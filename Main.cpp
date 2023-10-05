@@ -1,10 +1,3 @@
-#include <iostream>
-#include <utility>
-#include <vector>
-#include <memory>
-#include <string>
-#include <sstream>
-#include <limits>
 #include "MasterHeader.h"
 
 void ClientCode(const CarFactory& factory, std::string brand, std::string model, int year, std::string features, double price, int quantity, std::string serialNr) {
