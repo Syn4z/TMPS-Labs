@@ -22,7 +22,7 @@ The project main idea is a car manufacturer that have a lot of dealerships and i
 
 ### Creational Patterns
 #### Singleton
-This code ensures that there is only one instance of the `Customer` class, and you can retrieve that instance using the `GetInstance` method. This makes it a Singleton design pattern implementation. The use of a mutex ensures thread safety when accessing and modifying the list of instances, making it safe for use in a multi-threaded environment.
+This code ensures that there is only one instance of the `Customer` class, and I can retrieve that instance using the `GetInstance` method. This makes it a Singleton design pattern implementation. The use of a mutex ensures thread safety when accessing and modifying the list of instances, making it safe for use in a multi-threaded environment.
 ```
 Customer* Customer::GetInstance(const std::string& name, int age)
 {
@@ -39,11 +39,23 @@ Customer* Customer::GetInstance(const std::string& name, int age)
 ```
 
 #### Builder
-With this architecture, you can create different builder classes (e.g., `ElectricCarBuilder`, `SportsCarBuilder`, `OffroadCarBuilder`) to construct different types of cars, each with its own implementation of how to build the various parts. The `Assembly` class acts as the central coordinator to build the car, and it allows you to create cars with different configurations by choosing the appropriate builder.
+With this architecture, I can create different builder classes (e.g., `ElectricCarBuilder`, `SportsCarBuilder`, `OffroadCarBuilder`) to construct different types of cars, each with its own implementation of how to build the various parts. The `Assembly` class acts as the central coordinator to build the car, and it allows to create cars with different configurations by choosing the appropriate builder.
+```
+class CarBuilder {
+public:
+    virtual ~CarBuilder() = default;
+    virtual void buildEngine() = 0;
+    virtual void buildTransmission() = 0;
+    virtual void buildCarSuspension() = 0;
+    virtual void buildSteering() = 0;
+    virtual void buildBody() = 0;
+    virtual Product* GetProduct() = 0;
+};
+```
 
 #### Factory
 With this architecture, I can create different concrete factory classes (e.g., `SedanFactory`, `SUVFactory`) to produce different types of car objects (e.g., `Sedan`, `Offroad`). Each concrete factory is responsible for creating a specific type of product.
-The provided code represents the Factory Method design pattern by defining a factory interface (CarFactory), concrete product classes (Sedan), and concrete factory classes (SedanFactory) that create instances of the product class. This pattern allows for the creation of different types of cars while encapsulating the object creation logic within the appropriate factories.
+The provided code represents the Factory Method design pattern by defining a factory interface `CarFactory`, concrete product classes `Sedan`, and concrete factory classes `SedanFactory` that create instances of the product class. This pattern allows for the creation of different types of cars while encapsulating the object creation logic within the appropriate factories.
 ```
 CarInterface* SedanFactory::CreateCar(std::string brand, std::string model, int year, std::string features, double price, int quantity, std::string serialNr) const {
     return new Sedan(brand, model, year, features, price, quantity, serialNr);
