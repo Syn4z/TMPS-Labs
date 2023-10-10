@@ -1,16 +1,12 @@
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <string>
-#include <sstream>
-#include <limits>
-#include "src/carManufacturing/CarInfoDisplay.cpp"
-#include "src/carManufacturing/CarCosts.cpp"
-#include "src/carManufacturing/CommercialCar.cpp"
-#include "include/marketing/Customer.h"
-#include "src/marketing/FreeAdvertisementDisplay.cpp"
-#include "src/marketing/PaidAdvertisementDisplay.cpp"
+#include "MasterHeader.h"
 
+void ClientCode(const CarFactory& factory, std::string brand, std::string model, int year, std::string features, double price, int quantity, std::string serialNr) {
+    CarInterface* car = factory.CreateCar(std::move(brand), std::move(model), year, std::move(features), price, quantity, std::move(serialNr));
+    car->setType();
+    CarInfoDisplay car1(*car);
+    car1.display();
+    delete car;
+}
 
 bool isValidDoubleInput(const std::string& input) {
     std::istringstream stream(input);
@@ -20,75 +16,76 @@ bool isValidDoubleInput(const std::string& input) {
 
 int main() {
     bool exitProgram = false;
-    std::vector<Customer*> customers;
-
-    Customer* customer1 = Customer::GetInstance("John Doe", 30);
-    Customer* customer2 = Customer::GetInstance("Mark Yeet", 16);
-    Customer* customer3 = Customer::GetInstance("Jane Doe", 25);
-    Customer* customer4 = Customer::GetInstance("John Doe", 17);
-    std::vector<Customer*> allCustomers = Customer::GetAllCustomers();
-
+    // Cars
     std::vector<std::shared_ptr<CarImpl>> cars;
-    cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P"));
-    cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
-    cars.push_back(std::make_shared<CarImpl>("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P"));
-    cars.push_back(std::make_shared<CarImpl>("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004-P"));
-    std::vector<std::shared_ptr<CarImpl>> comercialCars;
-    comercialCars.push_back(std::make_shared<ComercialCar>("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001-CM"));
-
+    std::vector<std::shared_ptr<CarImpl>> commercialCars;
+    // Marketing
     std::vector<FreeAdvertisementImpl> freeAds;
     std::vector<PaidAdvertisementImpl> paidAds;
+    std::vector<Customer*> customers;
+    Customer& customer = Customer::GetInstance("John Doe", 30);
+    // Production
+    SportsCarBuilder sportsCar;
+    OffroadCarBuilder offroadCar;
+    ElectricCarBuilder electricCar;
+    // Staff
+    EmployeeFactory employeeFactory;
 
     while (!exitProgram) {
         int mainChoice;
-
-        std::cout << "\nMain Menu Options:" << std::endl;
-        std::cout << "1. Car Information" << std::endl;
-        std::cout << "2. Marketing Information" << std::endl;
-        std::cout << "3. Exit" << std::endl;
-        std::cout << "Enter your choice: ";
+        std::cout << "\nMain Menu Options:" << std::endl
+        << "1. Car Information" << std::endl
+        << "2. Marketing Information" << std::endl
+        << "3. Production Information" << std::endl
+        << "4. Staff Information" << std::endl
+        << "5. Exit" << std::endl
+        << "Enter your choice: ";
         std::cin >> mainChoice;
 
         switch (mainChoice) {
             case 1: // Car Information Menu
                 while (true) {
                     int carChoice;
-
-                    std::cout << "\nCar Information Menu:" << std::endl;
-                    std::cout << "1. Display Car Information" << std::endl;
-                    std::cout << "2. Change Car Quantity" << std::endl;
-                    std::cout << "3. Back to Main Menu" << std::endl;
-                    std::cout << "Enter your choice: ";
+                    std::cout << "\nCar Information Menu:" << std::endl
+                     << "1. Display Car Information" << std::endl
+                     << "2. Change Car Quantity" << std::endl
+                     << "3. Back to Main Menu" << std::endl
+                     << "Enter your choice: ";
                     std::cin >> carChoice;
                     std::string title;
                     std::string serialNr;
                     int newQuantity;
                     std::string input;
                     bool carFound = false;
+                    cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P"));
+                    cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
+                    cars.push_back(std::make_shared<CarImpl>("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P"));
+                    cars.push_back(std::make_shared<CarImpl>("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004-P"));
+                    commercialCars.push_back(std::make_shared<CommercialCar>("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001-CM"));
 
                     switch (carChoice) {
                         case 1:
                             while (true) {
                                 std::cout << "Enter the serial nr of the car/Enter 'A' for all cars: ";
                                 std::cin >> serialNr;
-                                if (serialNr.size() != 9 && serialNr != "A") {
-                                    std::cout << "Invalid serial number. Serial number must have exactly 9 characters." << std::endl;
+                                if (serialNr.size() != 12 && serialNr.size() != 11 && serialNr != "A") {
+                                    std::cout << "Invalid serial number. Serial number must have exactly 11/12 characters." << std::endl;
                                     continue;
                                 }
                                 else {
                                     break;
                                 }
                             }
-                            for (auto comercialCar : comercialCars) {
-                                CarInfoDisplay comercialCarInfoDisplay(*comercialCar);
-                                CarCosts comercialCarCosts(*comercialCar);
-                                comercialCar->setType();
-                                comercialCarInfoDisplay.display();
-                                if (serialNr != "A" && comercialCar->getSerialNr() == serialNr) {
-                                    comercialCarCosts.display();
+                            for (const auto& commercialCar : commercialCars) {
+                                CarInfoDisplay commercialCarInfoDisplay(*commercialCar);
+                                CarCosts commercialCarCosts(*commercialCar);
+                                commercialCar->setType();
+                                commercialCarInfoDisplay.display();
+                                if (serialNr != "A" && commercialCar->getSerialNr() == serialNr) {
+                                    commercialCarCosts.display();
                                 }
-                                double profit = comercialCarCosts.calculateProfit();
-                                double costPrice = comercialCarCosts.getAllCosts();
+                                double profit = commercialCarCosts.calculateProfit();
+                                double costPrice = commercialCarCosts.getAllCosts();
                                 std::cout << "\nAll Expenses: $" << costPrice << std::endl;
                                 std::cout << "Profit: $" << profit << std::endl;
                                 std::cout << "--------------------------" << std::endl;
@@ -123,12 +120,12 @@ int main() {
                         case 2:
                             while (true) {
                                 std::cout << "Enter the serial nr of the car:\n";
-                                std::getline(std::cin, serialNr);
-                                if (serialNr.size() == 9 && serialNr.find(' ') == std::string::npos) {
+                                std::cin >> serialNr;
+                                if (serialNr.size() == 11 || serialNr.size() == 12 && serialNr.find(' ') == std::string::npos) {
                                     break;
                                 }
                                 else {
-                                    std::cout << "Invalid serial number. Serial number must have exactly 9 characters." << std::endl;
+                                    std::cout << "Invalid serial number. Serial number must have exactly 11/12 characters." << std::endl;
                                 }
                             }
                             while (true) {
@@ -179,14 +176,13 @@ int main() {
             case 2: // Marketing Information Menu
                 while (true) {
                     int marketingChoice;
-
-                    std::cout << "\nMarketing Information Menu:" << std::endl;
-                    std::cout << "1. Add Advertisement" << std::endl;
-                    std::cout << "2. Show Advertisements" << std::endl;
-                    std::cout << "3. Search Advertisement" << std::endl;
-                    std::cout << "4. Display Customer Availability" << std::endl;
-                    std::cout << "5. Back to Main Menu" << std::endl;
-                    std::cout << "Enter your choice: ";
+                    std::cout << "\nMarketing Information Menu:" << std::endl
+                    << "1. Add Advertisement" << std::endl
+                    << "2. Show Advertisements" << std::endl
+                    << "3. Search Advertisement" << std::endl
+                    << "4. Display Customer Availability" << std::endl
+                    << "5. Back to Main Menu" << std::endl
+                    << "Enter your choice: ";
                     std::cin >> marketingChoice;
                     std::string searchTitle;
                     std::string serialNr;
@@ -203,9 +199,8 @@ int main() {
                                 std::cin >> input;
 
                                 for (char& c : input) {
-                                    c = std::tolower(c);
+                                    c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
                                 }
-
                                 if (input == "free" || input == "paid") {
                                     break;
                                 } else {
@@ -234,10 +229,10 @@ int main() {
                                 }
                             }
                             if (input == "free") {
-                                freeAds.push_back(FreeAdvertisementImpl(title, content, std::stoi(feedbackInput)));
+                                freeAds.emplace_back(title, content, std::stoi(feedbackInput));
                             }
                             else if (input == "paid") {
-                                paidAds.push_back(PaidAdvertisementImpl(title, content, std::stod(costInput), std::stoi(feedbackInput)));
+                                paidAds.emplace_back(title, content, std::stod(costInput), std::stoi(feedbackInput));
                             }
                             break;
 
@@ -276,14 +271,14 @@ int main() {
                                 std::cout << "No advertisements available." << std::endl;
                                 continue;
                             }
-                            for (const auto& ad : freeAds) {
-                                if (ad.getTitle() == searchTitle) {
-                                    FreeAdvertisementDisplay adsDisplay(ad);
+                            for (const auto& freeAd : freeAds) {
+                                if (freeAd.getTitle() == searchTitle) {
+                                    FreeAdvertisementDisplay adsDisplay(freeAd);
                                     adsDisplay.displayAd();
                                     std::cout << "Do you want to delete this advertisement? (Y/N): ";
                                     std::cin >> input;
                                     if (input == "Y") {
-                                        freeAds.erase(freeAds.begin() + (&ad - &freeAds[0]));
+                                        freeAds.erase(freeAds.begin() + (&freeAd - &freeAds[0]));
                                         std::cout << "Advertisement deleted." << std::endl;
                                         break;
                                     }
@@ -292,14 +287,14 @@ int main() {
                                     }
                                 }
                                 else {
-                                    for (const auto& ad : paidAds) {
-                                        if (ad.getTitle() == searchTitle) {
-                                            PaidAdvertisementDisplay adsDisplay(ad);
+                                    for (const auto& paidAd : paidAds) {
+                                        if (paidAd.getTitle() == searchTitle) {
+                                            PaidAdvertisementDisplay adsDisplay(paidAd);
                                             adsDisplay.displayAd();
                                             std::cout << "Do you want to delete this advertisement? (Y/N): ";
                                             std::cin >> input;
                                             if (input == "Y") {
-                                                paidAds.erase(paidAds.begin() + (&ad - &paidAds[0]));
+                                                paidAds.erase(paidAds.begin() + (&paidAd - &paidAds[0]));
                                                 std::cout << "Advertisement deleted." << std::endl;
                                                 break;
                                             }
@@ -318,30 +313,25 @@ int main() {
                         case 4:
                             for (const auto& ad : freeAds) {
                                 std::cout << "\n  Free Advertisement: " << ad.getTitle() << std::endl;
-                                for (auto customer : allCustomers)
-                                {
-                                    std::cout << "Customer Name: " << customer->GetName() << std::endl;
-                                    if (ad.receiveAdvertisement(customer)) {
-                                        std::cout << "Customer is eligible for advertisement." << std::endl;
+                                    if (ad.receiveAdvertisement(&customer)) {
+                                        std::cout << customer.GetName() << " is eligible for this ad." << std::endl;
                                     }
                                     else {
-                                        std::cout << "Customer is not eligible for advertisement." << std::endl;
+                                        std::cout << customer.GetName() << " is NOT eligible for this ad." << std::endl;
                                     }
-                                }
                             }
                             for (const auto& ad : paidAds) {
                                 std::cout << "\n  Paid Advertisement: " << ad.getTitle() << std::endl;
-                                for (auto customer : allCustomers)
-                                {
-                                    std::cout << "Customer: " << customer->GetName() << std::endl;
-                                    if (ad.receiveAdvertisement(customer)) {
-                                        std::cout << "Customer is eligible for advertisement." << std::endl;
+                                    if (ad.receiveAdvertisement(&customer, 21)) {
+                                        std::cout << customer.GetName() << " is eligible for this ad." << std::endl;
                                     }
                                     else {
-                                        std::cout << "Customer is not eligible for advertisement." << std::endl;
+                                        std::cout << customer.GetName() << " is NOT eligible for this ad." << std::endl;
                                     }
-                                }
                             }
+                            break;
+
+                        case 5:
                             break;
 
                         default:
@@ -350,14 +340,103 @@ int main() {
                             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                             break;
                     }
-
                     if (marketingChoice == 5) {
                         break;
                     }
                 }
                 break;
 
-            case 3:
+            case 3: // Production Information Menu
+                while (true) {
+                    int productionChoice;
+                    std::cout << "\nProduction Information Menu:" << std::endl
+                    << "1. Build vehicle parts" << std::endl
+                    << "2. View assembled vehicles on factory" << std::endl
+                    << "3. Back to Main Menu" << std::endl
+                    << "Enter your choice: ";
+                    std::cin >> productionChoice;
+                    auto* porsche911 = new Product(*Assembly::SupplyProduct(sportsCar));
+                    auto* toyotaTacoma = new Product(*Assembly::SupplyProduct(offroadCar));
+                    auto* porscheTaycan = new Product(*Assembly::SupplyProduct(electricCar));
+                    CarFactory* sedanFactory = new SedanFactory();
+                    CarFactory* suvFactory = new SUVFactory();
+
+                    switch (productionChoice) {
+                        case 1:
+                            std::cout << "\n  Parts built:" << std::endl;
+                            std::cout << "Porsche 911 parts: ";
+                            porsche911->ShowParts();
+                            std::cout << "\nToyota Tacoma parts: ";
+                            toyotaTacoma->ShowParts();
+                            std::cout << "\nPorsche Taycan parts: ";
+                            porscheTaycan->ShowParts();
+                            break;
+
+                        case 2:
+                            std::cout << "\n  Factory Produced:\n" << std::endl;
+                            ClientCode(*sedanFactory, "Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P");
+                            std::cout << std::endl;
+                            ClientCode(*sedanFactory, "Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P");
+                            std::cout << std::endl;
+                            ClientCode(*suvFactory, "Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P");
+                            break;
+
+                        case 3:
+                            break;
+
+                        default:
+                            std::cout << "Invalid choice. Try again." << std::endl;
+                            std::cin.clear();
+                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                            break;
+                    }
+                    delete sedanFactory;
+                    delete suvFactory;
+                    delete porsche911;
+                    delete toyotaTacoma;
+                    delete porscheTaycan;
+                    if (productionChoice == 3) {
+                        break;
+                    }
+                }
+                break;
+
+            case 4: // Staff Information Menu
+                while (true) {
+                    int staffChoice;
+                    std::cout << "\nStaff Information Menu:" << std::endl
+                    << "1. Display Staff Information" << std::endl
+                    << "2. Back to Main Menu" << std::endl
+                    << "Enter your choice: ";
+                    std::cin >> staffChoice;
+                    Employee* manager = employeeFactory.CreateEmployee(MANAGER);
+                    Employee* developer = employeeFactory.CreateEmployee(DEVELOPER);
+                    switch (staffChoice) {
+                        case 1:
+                            std::cout << "\n  Staff Information:" << std::endl;
+                            manager->Display();
+                            std::cout << "\n";
+                            developer->Display();
+                            break;
+
+                        case 2:
+                            break;
+
+                        default:
+                            std::cout << "Invalid choice. Try again." << std::endl;
+                            std::cin.clear();
+                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                            break;
+                    }
+                    delete manager;
+                    delete developer;
+                    if (staffChoice == 2) {
+                        break;
+                    }
+                }
+                break;
+
+            case 5:
                 exitProgram = true;
                 break;
 

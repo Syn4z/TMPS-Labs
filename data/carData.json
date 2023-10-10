@@ -6,7 +6,7 @@
         "price": 25000.0,
         "features": "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry",
         "quantity": 5,
-        "serialNr": "T2023C001"
+        "serialNr": "T2023C001-P"
     },
     {
         "brand": "Honda",
@@ -15,7 +15,7 @@
         "price": 22000.0,
         "features": "Lane Keeping Assist, Apple CarPlay, Android Auto",
         "quantity": 3,
-        "serialNr": "H2022C001"
+        "serialNr": "H2022C001-P"
     },
     {
         "brand": "Ford",
@@ -24,7 +24,7 @@
         "price": 35000.0,
         "features": "Towing Package, Sync 4 Infotainment, Remote Start",
         "quantity": 2,
-        "serialNr": "F2023F001"
+        "serialNr": "F2023F001-P"
     },
     {
         "brand": "Chevrolet",
@@ -33,6 +33,6 @@
         "price": 23000.0,
         "features": "Blind Spot Monitoring, Wireless Charging, Rearview Camera",
         "quantity": 4,
-        "serialNr": "C2022M001"
+        "serialNr": "C2022M001-P"
     }
 ]

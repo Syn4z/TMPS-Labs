@@ -1,20 +1,15 @@
 #include "../include/carManufacturing/CarImpl.h"
-#include <iostream>
-
-CarImpl& CarImpl::getInstance() {
-    static CarImpl instance("Brand", "Model", 0, "Features", 0.0, 0, "Serial");
-    return instance;
-}
+#include <utility>
 
 CarImpl::CarImpl(
-    const std::string& brand, 
-    const std::string& model, 
+    std::string  brand,
+    std::string  model,
     int year, 
-    const std::string& features, 
+    std::string  features,
     double price, 
     int quantity, 
-    const std::string& serialNr
-) : brand(brand), model(model), year(year), features(features), price(price), quantity(quantity), serialNr(serialNr), type(type) {}
+    std::string  serialNr
+) : brand(std::move(brand)), model(std::move(model)), year(year), features(std::move(features)), price(price), quantity(quantity), serialNr(std::move(serialNr)) {}
 std::string CarImpl::getBrand() const { return brand; }
 std::string CarImpl::getModel() const { return model; }
 int CarImpl::getYear() const { return year; }

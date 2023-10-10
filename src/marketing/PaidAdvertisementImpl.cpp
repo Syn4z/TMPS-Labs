@@ -1,30 +1,30 @@
-#include "../include/marketing/PaidAdvertisement.h"
-#include <iostream>
+#include <utility>
 
+#include "../../include/marketing/PaidAdvertisementImpl.h"
 
-class PaidAdvertisementImpl : public PaidAdvertisement {
-public:
-    PaidAdvertisementImpl(const std::string& title, const std::string& content, double cost, int feedback) :
-        title(title), content(content), cost(cost), feedback(feedback) {}
-    std::string getTitle() const { return title; }
-    std::string getContent() const{ return content; }
-    double getCost() const { return cost; }
-    int getFeedback() const { return feedback; }
-    bool getSuccess() const { 
-        if (feedback > cost * 0.3) {
-            return true;
-        }
-        else {
-            return false;
-        } 
-    }
-    bool receiveAdvertisement(const Customer* customer) const {
-        return customer->GetAge() > 18;
-    }
+PaidAdvertisementImpl::PaidAdvertisementImpl(std::string  title, std::string  content, double cost, int feedback)
+        : title(std::move(title)), content(std::move(content)), cost(cost), feedback(feedback) {}
 
-private:
-    std::string title;
-    std::string content;
-    double cost;
-    int feedback;
-};
+std::string PaidAdvertisementImpl::getTitle() const {
+    return title;
+}
+
+std::string PaidAdvertisementImpl::getContent() const {
+    return content;
+}
+
+double PaidAdvertisementImpl::getCost() const {
+    return cost;
+}
+
+int PaidAdvertisementImpl::getFeedback() const {
+    return feedback;
+}
+
+bool PaidAdvertisementImpl::getSuccess() const {
+    return feedback > cost * 0.3;
+}
+
+bool PaidAdvertisementImpl::receiveAdvertisement(const Customer* customer, int age) const {
+    return customer->GetAge() > age;
+}

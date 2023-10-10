@@ -1,21 +1,21 @@
-#include "../include/marketing/FreeAdvertisement.h"
-#include <iostream>
+#include <utility>
+#include "../../include/marketing/FreeAdvertisementImpl.h"
 
+FreeAdvertisementImpl::FreeAdvertisementImpl(std::string  title, std::string  content, int feedback)
+        : title(std::move(title)), content(std::move(content)), feedback(feedback) {}
 
-class FreeAdvertisementImpl : public FreeAdvertisement {
-public:
-    FreeAdvertisementImpl(const std::string& title, const std::string& content, int feedback) :
-            title(title), content(content), feedback(feedback) {}
+std::string FreeAdvertisementImpl::getTitle() const {
+    return title;
+}
 
-    std::string getTitle() const { return title; }
-    std::string getContent() const { return content; }
-    int getFeedback() const { return feedback; }
-    bool receiveAdvertisement(const Customer* customer) const {
-        return customer->GetAge() > 18;
-    }
+std::string FreeAdvertisementImpl::getContent() const {
+    return content;
+}
 
-private:
-    std::string title;
-    std::string content;
-    int feedback;
-};
+int FreeAdvertisementImpl::getFeedback() const {
+    return feedback;
+}
+
+bool FreeAdvertisementImpl::receiveAdvertisement(const Customer* customer) const {
+    return customer->GetAge() > 18;
+}
