@@ -23,11 +23,7 @@ int main() {
     std::vector<FreeAdvertisementImpl> freeAds;
     std::vector<PaidAdvertisementImpl> paidAds;
     std::vector<Customer*> customers;
-    [[maybe_unused]] Customer* customer1 = Customer::GetInstance("John Doe", 30);
-    [[maybe_unused]] Customer* customer2 = Customer::GetInstance("Mark Yeet", 16);
-    [[maybe_unused]] Customer* customer3 = Customer::GetInstance("Jane Doe", 20);
-    [[maybe_unused]] Customer* customer4 = Customer::GetInstance("John Doe", 17);
-    std::vector<Customer*> allCustomers = Customer::GetAllCustomers();
+    Customer& customer = Customer::GetInstance("John Doe", 30);
     // Production
     SportsCarBuilder sportsCar;
     OffroadCarBuilder offroadCar;
@@ -37,24 +33,24 @@ int main() {
 
     while (!exitProgram) {
         int mainChoice;
-        std::cout << "\nMain Menu Options:" << std::endl;
-        std::cout << "1. Car Information" << std::endl;
-        std::cout << "2. Marketing Information" << std::endl;
-        std::cout << "3. Production Information" << std::endl;
-        std::cout << "4. Staff Information" << std::endl;
-        std::cout << "5. Exit" << std::endl;
-        std::cout << "Enter your choice: ";
+        std::cout << "\nMain Menu Options:" << std::endl
+        << "1. Car Information" << std::endl
+        << "2. Marketing Information" << std::endl
+        << "3. Production Information" << std::endl
+        << "4. Staff Information" << std::endl
+        << "5. Exit" << std::endl
+        << "Enter your choice: ";
         std::cin >> mainChoice;
 
         switch (mainChoice) {
             case 1: // Car Information Menu
                 while (true) {
                     int carChoice;
-                    std::cout << "\nCar Information Menu:" << std::endl;
-                    std::cout << "1. Display Car Information" << std::endl;
-                    std::cout << "2. Change Car Quantity" << std::endl;
-                    std::cout << "3. Back to Main Menu" << std::endl;
-                    std::cout << "Enter your choice: ";
+                    std::cout << "\nCar Information Menu:" << std::endl
+                     << "1. Display Car Information" << std::endl
+                     << "2. Change Car Quantity" << std::endl
+                     << "3. Back to Main Menu" << std::endl
+                     << "Enter your choice: ";
                     std::cin >> carChoice;
                     std::string title;
                     std::string serialNr;
@@ -180,13 +176,13 @@ int main() {
             case 2: // Marketing Information Menu
                 while (true) {
                     int marketingChoice;
-                    std::cout << "\nMarketing Information Menu:" << std::endl;
-                    std::cout << "1. Add Advertisement" << std::endl;
-                    std::cout << "2. Show Advertisements" << std::endl;
-                    std::cout << "3. Search Advertisement" << std::endl;
-                    std::cout << "4. Display Customer Availability" << std::endl;
-                    std::cout << "5. Back to Main Menu" << std::endl;
-                    std::cout << "Enter your choice: ";
+                    std::cout << "\nMarketing Information Menu:" << std::endl
+                    << "1. Add Advertisement" << std::endl
+                    << "2. Show Advertisements" << std::endl
+                    << "3. Search Advertisement" << std::endl
+                    << "4. Display Customer Availability" << std::endl
+                    << "5. Back to Main Menu" << std::endl
+                    << "Enter your choice: ";
                     std::cin >> marketingChoice;
                     std::string searchTitle;
                     std::string serialNr;
@@ -317,27 +313,21 @@ int main() {
                         case 4:
                             for (const auto& ad : freeAds) {
                                 std::cout << "\n  Free Advertisement: " << ad.getTitle() << std::endl;
-                                for (auto customer : allCustomers)
-                                {
-                                    if (ad.receiveAdvertisement(customer)) {
-                                        std::cout << customer->GetName() << " is eligible for this ad." << std::endl;
+                                    if (ad.receiveAdvertisement(&customer)) {
+                                        std::cout << customer.GetName() << " is eligible for this ad." << std::endl;
                                     }
                                     else {
-                                        std::cout << customer->GetName() << " is NOT eligible for this ad." << std::endl;
+                                        std::cout << customer.GetName() << " is NOT eligible for this ad." << std::endl;
                                     }
-                                }
                             }
                             for (const auto& ad : paidAds) {
                                 std::cout << "\n  Paid Advertisement: " << ad.getTitle() << std::endl;
-                                for (auto customer : allCustomers)
-                                {
-                                    if (ad.receiveAdvertisement(customer, 21)) {
-                                        std::cout << customer->GetName() << " is eligible for this ad." << std::endl;
+                                    if (ad.receiveAdvertisement(&customer, 21)) {
+                                        std::cout << customer.GetName() << " is eligible for this ad." << std::endl;
                                     }
                                     else {
-                                        std::cout << customer->GetName() << " is NOT eligible for this ad." << std::endl;
+                                        std::cout << customer.GetName() << " is NOT eligible for this ad." << std::endl;
                                     }
-                                }
                             }
                             break;
 
@@ -359,11 +349,11 @@ int main() {
             case 3: // Production Information Menu
                 while (true) {
                     int productionChoice;
-                    std::cout << "\nProduction Information Menu:" << std::endl;
-                    std::cout << "1. Build vehicle parts" << std::endl;
-                    std::cout << "2. View assembled vehicles on factory" << std::endl;
-                    std::cout << "3. Back to Main Menu" << std::endl;
-                    std::cout << "Enter your choice: ";
+                    std::cout << "\nProduction Information Menu:" << std::endl
+                    << "1. Build vehicle parts" << std::endl
+                    << "2. View assembled vehicles on factory" << std::endl
+                    << "3. Back to Main Menu" << std::endl
+                    << "Enter your choice: ";
                     std::cin >> productionChoice;
                     auto* porsche911 = new Product(*Assembly::SupplyProduct(sportsCar));
                     auto* toyotaTacoma = new Product(*Assembly::SupplyProduct(offroadCar));
@@ -414,14 +404,13 @@ int main() {
             case 4: // Staff Information Menu
                 while (true) {
                     int staffChoice;
-                    std::cout << "\nStaff Information Menu:" << std::endl;
-                    std::cout << "1. Display Staff Information" << std::endl;
-                    std::cout << "2. Back to Main Menu" << std::endl;
-                    std::cout << "Enter your choice: ";
+                    std::cout << "\nStaff Information Menu:" << std::endl
+                    << "1. Display Staff Information" << std::endl
+                    << "2. Back to Main Menu" << std::endl
+                    << "Enter your choice: ";
                     std::cin >> staffChoice;
                     Employee* manager = employeeFactory.CreateEmployee(MANAGER);
                     Employee* developer = employeeFactory.CreateEmployee(DEVELOPER);
-
                     switch (staffChoice) {
                         case 1:
                             std::cout << "\n  Staff Information:" << std::endl;

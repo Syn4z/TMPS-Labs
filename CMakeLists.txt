@@ -45,7 +45,6 @@ set(HEADERS
     include/personnel/Employee.h
     include/personnel/Manager.h
     include/personnel/Developer.h
-    include/personnel/EmployeeFactory.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
