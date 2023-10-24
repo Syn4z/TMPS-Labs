@@ -23,10 +23,15 @@ set(SOURCES
     src/carManufacturing/factory/SUV.cpp
     src/carManufacturing/factory/SedanFactory.cpp
     src/carManufacturing/factory/SUVFactory.cpp
-    src/personnel/Manager.cpp
-    src/personnel/Developer.cpp
-    src/personnel/Employee.cpp
-    src/personnel/EmployeeFactory.cpp
+    src/carManufacturing/CarDecorator.cpp
+    src/carManufacturing/TunedCarDecorator.cpp
+    src/carManufacturing/SedanActions.cpp
+    src/carManufacturing/SUVActions.cpp
+    src/carManufacturing/CivilCar.cpp
+    src/carManufacturing/OffroadCar.cpp
+    src/personnel/Worker.cpp
+    src/personnel/Supervisor.cpp
+    src/user/MenuFacade.cpp
 )
 
 set(HEADERS
@@ -43,8 +48,16 @@ set(HEADERS
     include/carManufacturing/factory/SedanFactory.h
     include/carManufacturing/factory/SUVFactory.h
     include/personnel/Employee.h
-    include/personnel/Manager.h
-    include/personnel/Developer.h
+    include/carManufacturing/CarDecorator.h
+    include/carManufacturing/TunedCarDecorator.h
+    include/carManufacturing/CarActions.h
+    include/carManufacturing/SedanActions.h
+    include/carManufacturing/SUVActions.h
+    include/carManufacturing/CivilCar.h
+    include/carManufacturing/OffroadCar.h
+    include/personnel/Worker.h
+    include/personnel/Supervisor.h
+    include/user/MenuFacade.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
