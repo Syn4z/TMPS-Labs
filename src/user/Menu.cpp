@@ -1,9 +1,9 @@
-#include "../../include/user/MenuFacade.h"
+#include "../../include/user/Menu.h"
 
-MenuFacade::MenuFacade(std::vector<std::shared_ptr<CarInterface>>& cars, std::vector<std::shared_ptr<CarImpl>> &commercialCars, std::vector<FreeAdvertisementImpl> &freeAds, std::vector<PaidAdvertisementImpl> &paidAds)
+Menu::Menu(std::vector<std::shared_ptr<CarInterface>>& cars, std::vector<std::shared_ptr<CarImpl>> &commercialCars, std::vector<FreeAdvertisementImpl> &freeAds, std::vector<PaidAdvertisementImpl> &paidAds)
     : cars(cars), commercialCars(commercialCars), freeAds(freeAds), paidAds(paidAds) {}
 
-void MenuFacade::run() {
+void Menu::run() {
     bool exitProgram = false;
     while (!exitProgram) {
         int mainChoice = showMainMenu();
@@ -29,7 +29,7 @@ void MenuFacade::run() {
     }
 }
 
-int MenuFacade::showMainMenu() {
+int Menu::showMainMenu() {
     int mainChoice;
     std::cout << "\nMain Menu Options:" << std::endl
               << "1. Car Information" << std::endl
@@ -42,7 +42,7 @@ int MenuFacade::showMainMenu() {
     return mainChoice;
 }
 
-void MenuFacade::handleCarInformation() {
+void Menu::handleCarInformation() {
     int carChoice;
     cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P"));
     cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
@@ -197,7 +197,7 @@ void MenuFacade::handleCarInformation() {
     }
 }
 
-void MenuFacade::handleMarketingInformation() {
+void Menu::handleMarketingInformation() {
     int marketingChoice;
     Customer& customer = Customer::GetInstance("John Doe", 30);
     while (true) {
@@ -371,7 +371,7 @@ void MenuFacade::handleMarketingInformation() {
     }
 }
 
-void MenuFacade::handleProductionInformation() {
+void Menu::handleProductionInformation() {
     int productionChoice;
     SportsCarBuilder sportsCar;
     OffroadCarBuilder offroadCar;
@@ -429,7 +429,7 @@ void MenuFacade::handleProductionInformation() {
     delete porscheTaycan;
 }
 
-void MenuFacade::handleStaffInformation() {
+void Menu::handleStaffInformation() {
     int staffChoice;
     Employee* worker1 = new Worker("John");
     Employee* worker2 = new Worker("Alice");
@@ -464,15 +464,15 @@ void MenuFacade::handleStaffInformation() {
     }
 }
 
-bool MenuFacade::isValidDoubleInput(const std::string& input) {
+bool Menu::isValidDoubleInput(const std::string& input) {
     std::istringstream stream(input);
     double value;
     return stream >> value && stream.eof();
 }
 
 void
-MenuFacade::ClientCode(const CarFactory &factory, std::string brand, std::string model, int year, std::string features,
-                       double price, int quantity, std::string serialNr) {
+Menu::ClientCode(const CarFactory &factory, std::string brand, std::string model, int year, std::string features,
+                 double price, int quantity, std::string serialNr) {
     CarInterface* car = factory.CreateCar(std::move(brand), std::move(model), year, std::move(features), price, quantity, std::move(serialNr));
     car->setType();
     CarInfoDisplay car1(*car);

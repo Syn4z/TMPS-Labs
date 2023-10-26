@@ -8,9 +8,9 @@
 #include <sstream>
 #include "../../MasterHeader.h"
 
-class MenuFacade {
+class Menu {
 public:
-    explicit MenuFacade(std::vector<std::shared_ptr<CarInterface>> &cars, std::vector<std::shared_ptr<CarImpl>> &commercialCars, std::vector<FreeAdvertisementImpl> &freeAds, std::vector<PaidAdvertisementImpl> &paidAds);
+    explicit Menu(std::vector<std::shared_ptr<CarInterface>> &cars, std::vector<std::shared_ptr<CarImpl>> &commercialCars, std::vector<FreeAdvertisementImpl> &freeAds, std::vector<PaidAdvertisementImpl> &paidAds);
     void run();
 
 private:

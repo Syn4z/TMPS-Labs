@@ -31,7 +31,11 @@ set(SOURCES
     src/carManufacturing/OffroadCar.cpp
     src/personnel/Worker.cpp
     src/personnel/Supervisor.cpp
-    src/user/MenuFacade.cpp
+    src/user/Menu.cpp
+    src/carManufacturing/engine/EngineFacade.cpp
+    src/carManufacturing/engine/IgnitionSystem.cpp
+    src/carManufacturing/engine/CoolingSystem.cpp
+    src/carManufacturing/engine/FuelSystem.cpp
 )
 
 set(HEADERS
@@ -57,7 +61,11 @@ set(HEADERS
     include/carManufacturing/OffroadCar.h
     include/personnel/Worker.h
     include/personnel/Supervisor.h
-    include/user/MenuFacade.h
+    include/user/Menu.h
+    include/carManufacturing/engine/FuelSystem.h
+    include/carManufacturing/engine/CoolingSystem.h
+    include/carManufacturing/engine/IgnitionSystem.h
+    include/carManufacturing/engine/EngineFacade.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})

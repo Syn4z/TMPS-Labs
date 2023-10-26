@@ -1,4 +1,5 @@
 #include "MasterHeader.h"
+#include "include/carManufacturing/engine/EngineFacade.h"
 
 int main() {
     CarActions* sedanActions = new SedanActions();
@@ -18,6 +19,14 @@ int main() {
 
     delete civilCar;
     delete offRoadSUV;
+    std::cout << std::endl;
+
+    EngineFacade carEngine;
+    std::cout << "Starting the car:\n";
+    std::cout << carEngine.StartCar();
+
+    std::cout << "Stopping the car:\n";
+    std::cout << carEngine.StopCar();
 
     // Cars
     std::vector<std::shared_ptr<CarInterface>> cars;
@@ -26,7 +35,7 @@ int main() {
     std::vector<FreeAdvertisementImpl> freeAds;
     std::vector<PaidAdvertisementImpl> paidAds;
 
-    MenuFacade menuFacade(cars, commercialCars, freeAds, paidAds);
+    Menu menuFacade(cars, commercialCars, freeAds, paidAds);
     menuFacade.run();
 
     return 0;
