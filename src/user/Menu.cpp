@@ -62,6 +62,10 @@ void Menu::handleCarInformation() {
         int newQuantity;
         std::string input;
         bool carFound = false;
+        DetailedCarInfo detailedStrategy;
+        SummaryCarInfo summaryStrategy;
+        CarInfoDisplay detailedDisplay(detailedStrategy);
+        CarInfoDisplay summaryDisplay(summaryStrategy);
 
         switch (carChoice) {
             case 1:
@@ -77,10 +81,9 @@ void Menu::handleCarInformation() {
                     }
                 }
                 for (const auto& commercialCar : commercialCars) {
-                    CarInfoDisplay commercialCarInfoDisplay(*commercialCar);
                     CarCosts commercialCarCosts(*commercialCar);
                     commercialCar->setType();
-                    commercialCarInfoDisplay.display();
+                    detailedDisplay.displayCarInfo(*commercialCar);
                     if (serialNr != "A" && commercialCar->getSerialNr() == serialNr) {
                         commercialCarCosts.display();
                     }
@@ -94,13 +97,15 @@ void Menu::handleCarInformation() {
                     if (car->getSerialNr() == serialNr || serialNr == "A") {
                         car->setType();
                         std::cout << "\n  Car Information:" << std::endl;
-                        CarInfoDisplay carInfoDisplay(*car);
                         CarCosts carCosts(*car);
-                        carInfoDisplay.display();
                         double profit = carCosts.calculateProfit();
                         double costPrice = carCosts.getAllCosts();
                         if (serialNr != "A" && car->getSerialNr() == serialNr) {
+                            detailedDisplay.displayCarInfo(*car);
                             carCosts.display();
+                        }
+                        else {
+                            summaryDisplay.displayCarInfo(*car);
                         }
                         std::cout << "\nAll Expenses: $" << costPrice << std::endl;
                         std::cout << "Profit: $" << profit << std::endl;
@@ -216,6 +221,9 @@ void Menu::handleMarketingInformation() {
         std::string feedbackInput;
         std::string title;
         std::string content;
+        Advertiser advertiser;
+        ConcreteObserver observer;
+        advertiser.registerObserver(&observer);
 
         switch (marketingChoice) {
             case 1:
@@ -255,9 +263,13 @@ void Menu::handleMarketingInformation() {
                 }
                 if (input == "free") {
                     freeAds.emplace_back(title, content, std::stoi(feedbackInput));
+                    Notification ad(content);
+                    advertiser.notifyObservers(ad);
                 }
                 else if (input == "paid") {
                     paidAds.emplace_back(title, content, std::stod(costInput), std::stoi(feedbackInput));
+                    Notification ad(content);
+                    advertiser.notifyObservers(ad);
                 }
                 break;
 
@@ -475,7 +487,8 @@ Menu::ClientCode(const CarFactory &factory, std::string brand, std::string model
                  double price, int quantity, std::string serialNr) {
     CarInterface* car = factory.CreateCar(std::move(brand), std::move(model), year, std::move(features), price, quantity, std::move(serialNr));
     car->setType();
-    CarInfoDisplay car1(*car);
-    car1.display();
+    DetailedCarInfo detailedStrategy;
+    CarInfoDisplay detailedDisplay(detailedStrategy);
+    detailedDisplay.displayCarInfo(*car);
     delete car;
 }

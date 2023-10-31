@@ -1,5 +1,6 @@
 #include "MasterHeader.h"
-#include "include/carManufacturing/engine/EngineFacade.h"
+#include "include/carManufacturing/components/EngineFacade.h"
+
 
 int main() {
     CarActions* sedanActions = new SedanActions();
@@ -34,14 +35,10 @@ int main() {
     // Marketing
     std::vector<FreeAdvertisementImpl> freeAds;
     std::vector<PaidAdvertisementImpl> paidAds;
-    std::vector<Customer*> customers;
-    Customer& customer = Customer::GetInstance("John Doe", 30);
     // Production
     SportsCarBuilder sportsCar;
     OffroadCarBuilder offroadCar;
     ElectricCarBuilder electricCar;
-    // Staff
-    EmployeeFactory employeeFactory;
 
     Menu menuFacade(cars, commercialCars, freeAds, paidAds);
     menuFacade.run();

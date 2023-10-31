@@ -25,17 +25,21 @@ set(SOURCES
     src/carManufacturing/factory/SUVFactory.cpp
     src/carManufacturing/CarDecorator.cpp
     src/carManufacturing/TunedCarDecorator.cpp
-    src/carManufacturing/SedanActions.cpp
-    src/carManufacturing/SUVActions.cpp
-    src/carManufacturing/CivilCar.cpp
-    src/carManufacturing/OffroadCar.cpp
+        src/carManufacturing/actions/SedanActions.cpp
+        src/carManufacturing/actions/SUVActions.cpp
+        src/carManufacturing/actions/CivilCar.cpp
+        src/carManufacturing/actions/OffroadCar.cpp
     src/personnel/Worker.cpp
     src/personnel/Supervisor.cpp
     src/user/Menu.cpp
-    src/carManufacturing/engine/EngineFacade.cpp
-    src/carManufacturing/engine/IgnitionSystem.cpp
-    src/carManufacturing/engine/CoolingSystem.cpp
-    src/carManufacturing/engine/FuelSystem.cpp
+        src/carManufacturing/components/EngineFacade.cpp
+        src/carManufacturing/components/IgnitionSystem.cpp
+        src/carManufacturing/components/CoolingSystem.cpp
+        src/carManufacturing/components/FuelSystem.cpp
+    src/marketing/notification/ConcreteObserver.cpp
+        src/carManufacturing/info/DetailedCarInfo.cpp
+        src/carManufacturing/info/SummaryCarInfo.cpp
+        src/carManufacturing/info/CarInfoDisplay.cpp
 )
 
 set(HEADERS
@@ -54,18 +58,25 @@ set(HEADERS
     include/personnel/Employee.h
     include/carManufacturing/CarDecorator.h
     include/carManufacturing/TunedCarDecorator.h
-    include/carManufacturing/CarActions.h
-    include/carManufacturing/SedanActions.h
-    include/carManufacturing/SUVActions.h
-    include/carManufacturing/CivilCar.h
-    include/carManufacturing/OffroadCar.h
+        include/carManufacturing/actions/CarActions.h
+        include/carManufacturing/actions/SedanActions.h
+        include/carManufacturing/actions/SUVActions.h
+        include/carManufacturing/actions/CivilCar.h
+        include/carManufacturing/actions/OffroadCar.h
     include/personnel/Worker.h
     include/personnel/Supervisor.h
     include/user/Menu.h
-    include/carManufacturing/engine/FuelSystem.h
-    include/carManufacturing/engine/CoolingSystem.h
-    include/carManufacturing/engine/IgnitionSystem.h
-    include/carManufacturing/engine/EngineFacade.h
+        include/carManufacturing/components/FuelSystem.h
+        include/carManufacturing/components/CoolingSystem.h
+        include/carManufacturing/components/IgnitionSystem.h
+        include/carManufacturing/components/EngineFacade.h
+    include/marketing/notification/Notification.h
+    include/marketing/notification/Observer.h
+    include/marketing/notification/Advertiser.h
+    include/marketing/notification/ConcreteObserver.h
+        include/carManufacturing/info/CarInfoStrategy.h
+        include/carManufacturing/info/DetailedCarInfo.h
+        include/carManufacturing/info/SummaryCarInfo.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})

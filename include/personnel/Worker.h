@@ -12,4 +12,3 @@ public:
     explicit Worker(std::string  name);
     void work() const override;
 };
-

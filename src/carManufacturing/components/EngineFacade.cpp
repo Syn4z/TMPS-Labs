@@ -1,4 +1,4 @@
-#include "../../../include/carManufacturing/engine/EngineFacade.h"
+#include "../../../include/carManufacturing/components/EngineFacade.h"
 
 EngineFacade::EngineFacade() {
     fuelSystem = new FuelSystem();
@@ -13,7 +13,7 @@ EngineFacade::~EngineFacade() {
 }
 
 std::string EngineFacade::StartCar() {
-    std::string result = "EngineFacade: Starting the car engine.\n";
+    std::string result = "EngineFacade: Starting the car components.\n";
     result += ignitionSystem->StartIgnition(); // NOLINT(*-static-accessed-through-instance)
     result += fuelSystem->SupplyFuel(); // NOLINT(*-static-accessed-through-instance)
     result += coolingSystem->CoolEngine(); // NOLINT(*-static-accessed-through-instance)
@@ -21,7 +21,7 @@ std::string EngineFacade::StartCar() {
 }
 
 std::string EngineFacade::StopCar() {
-    std::string result = "EngineFacade: Stopping the car engine.\n";
+    std::string result = "EngineFacade: Stopping the car components.\n";
     result += ignitionSystem->StopIgnition(); // NOLINT(*-static-accessed-through-instance)
     result += coolingSystem->StopCooling(); // NOLINT(*-static-accessed-through-instance)
     result += fuelSystem->StopFuelSupply(); // NOLINT(*-static-accessed-through-instance)

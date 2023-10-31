@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 #include <limits>
-#include "include/carManufacturing/CarInfoDisplay.h"
+#include "carManufacturing/info/CarInfoDisplay.h"
 #include "include/carManufacturing/CarCosts.h"
 #include "include/carManufacturing/CommercialCar.h"
 #include "include/marketing/Customer.h"
@@ -21,9 +21,14 @@
 #include "include/carManufacturing/factory/SUVFactory.h"
 #include "include/carManufacturing/CarDecorator.h"
 #include "include/carManufacturing/TunedCarDecorator.h"
-#include "include/carManufacturing/OffroadCar.h"
-#include "include/carManufacturing/SedanActions.h"
-#include "include/carManufacturing/SUVActions.h"
+#include "carManufacturing/actions/OffroadCar.h"
+#include "carManufacturing/actions/SedanActions.h"
+#include "carManufacturing/actions/SUVActions.h"
 #include "include/personnel/Worker.h"
 #include "include/personnel/Supervisor.h"
 #include "include/user/Menu.h"
+#include "include/marketing/notification/Notification.h"
+#include "include/marketing/notification/Advertiser.h"
+#include "include/marketing/notification/ConcreteObserver.h"
+#include "include/carManufacturing/info/DetailedCarInfo.h"
+#include "include/carManufacturing/info/SummaryCarInfo.h"
