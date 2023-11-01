@@ -17,8 +17,8 @@ Structural design patterns are a category of design patterns that focus on the c
 ## Implementation description
 
 ### Project domain
-The project main idea is a car manufacturer that have a lot of dealerships and in each dealership the staff needs acces 
-to the vehicles information for customers or for the dealership itself. Also thy are having acces to company advertisements, 
+The project main idea is a car manufacturer that have a lot of dealerships and in each dealership the staff needs access 
+to the vehicles information for customers or for the dealership itself. Also thy are having access to company advertisements, 
 customers, factory and staff. The project is structured in 5 main packages: assembly-line, carManufacturing, marketing, personnel and user.
 Each package contains classes that are related to the package name. The main idea of the project is to show how the SOLID principles are 
 respected in the project and introduce all types of design patterns.
