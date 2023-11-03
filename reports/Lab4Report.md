@@ -25,18 +25,19 @@ respected in the project and introduce all types of design patterns.
 
 ### Behavioral Patterns
 #### Observer
-
+An `Advertiser` to maintain a list of registered observers (of type `Observer`) and notify them when it wants to broadcast a message or notification (represented by a `Notification` object). Observers, such as the `ConcreteObserver`, can register with the `Advertiser`, and when the `Advertiser` calls `notifyObservers`, all registered observers will receive the notification and can take specific actions in response.
 
 #### Strategy
-
+The Strategy pattern is used to define a family of algorithms, encapsulate each one, and make them interchangeable. `CarInfoDisplay` is the context that utilizes different strategies (either `DetailedCarInfo` or `SummaryCarInfo`) to display car information. This approach allows to change the behavior of `CarInfoDisplay` at runtime without modifying its code. It can select and use a specific strategy to display car information, depending on the requirements or preferences.
 
 #### Iterator
-
+This `CarIterator` class can be used to iterate over a collection of `CarInterface` objects stored as shared pointers in a std::vector. It allows to access the elements in the collection using familiar iterator syntax, such as dereferencing with * and ->, advancing with ++, and comparing with == and !=. This makes it easier to work with complex data structures and ensures handling shared pointers correctly while iterating over them.
 
 ## Conclusions / Results
 
 ### Conclusion
-To Do
+In conclusion, the provided laboratory demonstrates how to apply behavioral design patterns to improve code organization, reusability, and flexibility. These patterns are valuable tools for creating maintainable and extensible software, and they help in achieving better separation of concerns and enhancing code modularity.
+Each of these patterns serves a different purpose and promotes good design principles in software development.
 
 ## References
 https://github.com/sspatari/tmps-labs/tree/master/Lab%234

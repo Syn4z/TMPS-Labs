@@ -4,5 +4,5 @@
 ConcreteObserver::ConcreteObserver() = default;
 
 void ConcreteObserver::update(const Notification& ad) {
-    std::cout << "Sent an advertisement: " << ad.getContent() << std::endl;
+    std::cout << "Received an advertisement: " << ad.getContent() << std::endl;
 }

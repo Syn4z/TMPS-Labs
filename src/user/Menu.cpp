@@ -233,8 +233,10 @@ void Menu::handleMarketingInformation() {
         std::string title;
         std::string content;
         Advertiser advertiser;
-        ConcreteObserver observer;
-        advertiser.registerObserver(&observer);
+        ConcreteObserver customer1;
+        ConcreteObserver customer2;
+        advertiser.registerObserver(&customer1);
+        advertiser.registerObserver(&customer2);
 
         switch (marketingChoice) {
             case 1:
