@@ -5,8 +5,8 @@
         "year": 2023,
         "price": 25000.0,
         "features": "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry",
-        "quantity": 5,
-        "serialNr": "T2023C001-P"
+        "quantity": 11,
+        "serialNr": "T2023C002-P"
     },
     {
         "brand": "Honda",
@@ -14,25 +14,25 @@
         "year": 2022,
         "price": 22000.0,
         "features": "Lane Keeping Assist, Apple CarPlay, Android Auto",
-        "quantity": 3,
+        "quantity": 10,
         "serialNr": "H2022C001-P"
     },
     {
         "brand": "Ford",
-        "model": "F-150",
-        "year": 2023,
-        "price": 35000.0,
-        "features": "Towing Package, Sync 4 Infotainment, Remote Start",
-        "quantity": 2,
-        "serialNr": "F2023F001-P"
+        "model": "Fusion",
+        "year": 2020,
+        "price": 10000.0,
+        "features": "Blind Spot Monitoring, Wireless Charging, Rearview Camera",
+        "quantity": 15,
+        "serialNr": "F2020F004-P"
     },
     {
-        "brand": "Chevrolet",
-        "model": "Malibu",
-        "year": 2022,
-        "price": 23000.0,
-        "features": "Blind Spot Monitoring, Wireless Charging, Rearview Camera",
-        "quantity": 4,
-        "serialNr": "C2022M001-P"
+        "brand": "Toyota",
+        "model": "Tundra",
+        "year": 2021,
+        "price": 45000.0,
+        "features": "Towing Package, Parking Assist, Four-Wheel Drive",
+        "quantity": 11,
+        "serialNr": "T2123C001-CM"
     }
 ]

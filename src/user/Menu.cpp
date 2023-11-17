@@ -1,7 +1,7 @@
 #include "../../include/user/Menu.h"
 
-Menu::Menu(std::vector<std::shared_ptr<CarInterface>>& cars, std::vector<std::shared_ptr<CarImpl>> &commercialCars, std::vector<FreeAdvertisementImpl> &freeAds, std::vector<PaidAdvertisementImpl> &paidAds)
-    : cars(cars), commercialCars(commercialCars), freeAds(freeAds), paidAds(paidAds) {}
+Menu::Menu(std::vector<std::shared_ptr<CarInterface>>& cars, std::vector<FreeAdvertisementImpl> &freeAds, std::vector<PaidAdvertisementImpl> &paidAds)
+    : cars(cars), freeAds(freeAds), paidAds(paidAds) {}
 
 void Menu::run() {
     bool exitProgram = false;
@@ -44,17 +44,19 @@ int Menu::showMainMenu() {
 
 void Menu::handleCarInformation() {
     int carChoice;
-    cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C001-P"));
-    cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C002-P"));
-    cars.push_back(std::make_shared<CarImpl>("Nissan", "Altima", 2021, "Towing Package, Sync 4 Infotainment, Remote Start", 15000.0, 12, "N2021A003-P"));
+    cars.push_back(std::make_shared<CarImpl>("Toyota", "Camry", 2023, "Advanced Safety Suite, Touchscreen Infotainment, Keyless Entry", 25000.0, 11, "T2023C002-P"));
+    cars.push_back(std::make_shared<CarImpl>("Honda", "Civic", 2022, "Lane Keeping Assist, Apple CarPlay, Android Auto", 20000.0, 10, "H2022C001-P"));
     cars.push_back(std::make_shared<CarImpl>("Ford", "Fusion", 2020, "Blind Spot Monitoring, Wireless Charging, Rearview Camera", 10000.0, 15, "F2020F004-P"));
-    commercialCars.push_back(std::make_shared<CommercialCar>("Toyota", "Tundra", 2021, "POWER", 25000.0, 11, "T2123C001-CM"));
+    cars.push_back(std::make_shared<CommercialCar>("Toyota", "Tundra", 2021, "Towing Package, Parking Assist, Four-Wheel Drive", 45000.0, 11, "T2123C001-CM"));
+    CarIterator begin(cars.begin());
+    CarIterator end(cars.end());
     while (true) {
         std::cout << "\nCar Information Menu:" << std::endl
                   << "1. Display Car Information" << std::endl
                   << "2. Change Car Quantity" << std::endl
                   << "3. Tune a Car" << std::endl
-                  << "4. Back to Main Menu" << std::endl
+                  << "4. Test Drive" << std::endl
+                  << "5. Back to Main Menu" << std::endl
                   << "Enter your choice: ";
         std::cin >> carChoice;
         std::string title;
@@ -62,6 +64,15 @@ void Menu::handleCarInformation() {
         int newQuantity;
         std::string input;
         bool carFound = false;
+        DetailedCarInfo detailedStrategy;
+        SummaryCarInfo summaryStrategy;
+        CarInfoDisplay detailedDisplay(detailedStrategy);
+        CarInfoDisplay summaryDisplay(summaryStrategy);
+        CarActions* sedanActions = new SedanActions();
+        CarActions* suvActions = new SUVActions();
+        CivilCar* offRoadSUV = new OffroadCar(suvActions);
+        auto* civilCar = new CivilCar(sedanActions);
+        auto* offroadCar = dynamic_cast<OffroadCar*>(offRoadSUV);
 
         switch (carChoice) {
             case 1:
@@ -76,31 +87,20 @@ void Menu::handleCarInformation() {
                         break;
                     }
                 }
-                for (const auto& commercialCar : commercialCars) {
-                    CarInfoDisplay commercialCarInfoDisplay(*commercialCar);
-                    CarCosts commercialCarCosts(*commercialCar);
-                    commercialCar->setType();
-                    commercialCarInfoDisplay.display();
-                    if (serialNr != "A" && commercialCar->getSerialNr() == serialNr) {
-                        commercialCarCosts.display();
-                    }
-                    double profit = commercialCarCosts.calculateProfit();
-                    double costPrice = commercialCarCosts.getAllCosts();
-                    std::cout << "\nAll Expenses: $" << costPrice << std::endl;
-                    std::cout << "Profit: $" << profit << std::endl;
-                    std::cout << "--------------------------" << std::endl;
-                }
-                for (auto &car: cars) {
+                for (CarIterator it = begin; it != end; ++it) {
+                    std::shared_ptr<CarInterface> car = *it;
                     if (car->getSerialNr() == serialNr || serialNr == "A") {
                         car->setType();
                         std::cout << "\n  Car Information:" << std::endl;
-                        CarInfoDisplay carInfoDisplay(*car);
                         CarCosts carCosts(*car);
-                        carInfoDisplay.display();
                         double profit = carCosts.calculateProfit();
                         double costPrice = carCosts.getAllCosts();
                         if (serialNr != "A" && car->getSerialNr() == serialNr) {
+                            detailedDisplay.displayCarInfo(*car);
                             carCosts.display();
+                        }
+                        else {
+                            summaryDisplay.displayCarInfo(*car);
                         }
                         std::cout << "\nAll Expenses: $" << costPrice << std::endl;
                         std::cout << "Profit: $" << profit << std::endl;
@@ -141,7 +141,8 @@ void Menu::handleCarInformation() {
                     }
                 }
                 try {
-                    for (auto& car : cars) {
+                    for (CarIterator it = begin; it != end; ++it) {
+                        std::shared_ptr<CarInterface> car = *it;
                         if (car->getSerialNr() == serialNr) {
                             car->setQuantity(newQuantity);
                             std::cout << "Quantity updated for car with serial number " << serialNr << std::endl;
@@ -168,7 +169,8 @@ void Menu::handleCarInformation() {
                         std::cout << "Invalid serial number. Serial number must have exactly 11/12 characters." << std::endl;
                     }
                 }
-                for (auto& car : cars) {
+                for (CarIterator it = begin; it != end; ++it) {
+                    std::shared_ptr<CarInterface> car = *it;
                     if (car->getSerialNr() == serialNr) {
                         car = std::make_shared<TunedCarDecorator>(car);
                         car->setType();
@@ -183,6 +185,20 @@ void Menu::handleCarInformation() {
                 break;
 
             case 4:
+                civilCar->driveCar();
+                civilCar->accelerate();
+                civilCar->stopCar();
+                std::cout << std::endl;
+                offRoadSUV->driveCar();
+                offRoadSUV->accelerate();
+                offroadCar->turnOn4x4();
+                offRoadSUV->stopCar();
+                delete civilCar;
+                delete offRoadSUV;
+                std::cout << std::endl;
+                break;
+
+            case 5:
                 break;
 
             default:
@@ -191,7 +207,7 @@ void Menu::handleCarInformation() {
                 std::cout << "Invalid choice. Try again." << std::endl;
                 break;
         }
-        if (carChoice == 4) {
+        if (carChoice == 5) {
             break;
         }
     }
@@ -216,6 +232,11 @@ void Menu::handleMarketingInformation() {
         std::string feedbackInput;
         std::string title;
         std::string content;
+        Advertiser advertiser;
+        ConcreteObserver customer1;
+        ConcreteObserver customer2;
+        advertiser.registerObserver(&customer1);
+        advertiser.registerObserver(&customer2);
 
         switch (marketingChoice) {
             case 1:
@@ -255,9 +276,13 @@ void Menu::handleMarketingInformation() {
                 }
                 if (input == "free") {
                     freeAds.emplace_back(title, content, std::stoi(feedbackInput));
+                    Notification ad(content);
+                    advertiser.notifyObservers(ad);
                 }
                 else if (input == "paid") {
                     paidAds.emplace_back(title, content, std::stod(costInput), std::stoi(feedbackInput));
+                    Notification ad(content);
+                    advertiser.notifyObservers(ad);
                 }
                 break;
 
@@ -381,11 +406,13 @@ void Menu::handleProductionInformation() {
     auto* porscheTaycan = new Product(*Assembly::SupplyProduct(electricCar));
     CarFactory* sedanFactory = new SedanFactory();
     CarFactory* suvFactory = new SUVFactory();
+    EngineFacade carEngine;
     while (true) {
         std::cout << "\nProduction Information Menu:" << std::endl
                 << "1. Build vehicle parts" << std::endl
                 << "2. View assembled vehicles on factory" << std::endl
-                << "3. Back to Main Menu" << std::endl
+                << "3. Test Engine" << std::endl
+                << "4. Back to Main Menu" << std::endl
                 << "Enter your choice: ";
         std::cin >> productionChoice;
 
@@ -410,6 +437,13 @@ void Menu::handleProductionInformation() {
                 break;
 
             case 3:
+                std::cout << "Starting the car:\n"
+                << carEngine.StartCar()
+                << std::endl
+                << "Stopping the car:\n"
+                << carEngine.StopCar();
+
+            case 4:
                 break;
 
             default:
@@ -418,7 +452,7 @@ void Menu::handleProductionInformation() {
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 break;
         }
-        if (productionChoice == 3) {
+        if (productionChoice == 4) {
             break;
         }
     }
@@ -475,7 +509,8 @@ Menu::ClientCode(const CarFactory &factory, std::string brand, std::string model
                  double price, int quantity, std::string serialNr) {
     CarInterface* car = factory.CreateCar(std::move(brand), std::move(model), year, std::move(features), price, quantity, std::move(serialNr));
     car->setType();
-    CarInfoDisplay car1(*car);
-    car1.display();
+    DetailedCarInfo detailedStrategy;
+    CarInfoDisplay detailedDisplay(detailedStrategy);
+    detailedDisplay.displayCarInfo(*car);
     delete car;
 }

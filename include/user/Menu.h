@@ -7,10 +7,11 @@
 #include <limits>
 #include <sstream>
 #include "../../MasterHeader.h"
+#include "../vehicle/components/EngineFacade.h"
 
 class Menu {
 public:
-    explicit Menu(std::vector<std::shared_ptr<CarInterface>> &cars, std::vector<std::shared_ptr<CarImpl>> &commercialCars, std::vector<FreeAdvertisementImpl> &freeAds, std::vector<PaidAdvertisementImpl> &paidAds);
+    explicit Menu(std::vector<std::shared_ptr<CarInterface>> &cars, std::vector<FreeAdvertisementImpl> &freeAds, std::vector<PaidAdvertisementImpl> &paidAds);
     void run();
 
 private:
@@ -22,7 +23,6 @@ private:
     static bool isValidDoubleInput(const std::string& input);
     static void ClientCode(const CarFactory& factory, std::string brand, std::string model, int year, std::string features, double price, int quantity, std::string serialNr);
     std::vector<std::shared_ptr<CarInterface>>& cars;
-    std::vector<std::shared_ptr<CarImpl>> &commercialCars;
     std::vector<FreeAdvertisementImpl> &freeAds;
     std::vector<PaidAdvertisementImpl> &paidAds;
 };
